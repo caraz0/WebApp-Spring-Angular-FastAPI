@@ -8,7 +8,7 @@ import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 
 @SpringBootApplication
-public class TfgApplication implements CommandLineRunner {
+public class TfgApplication /*implements CommandLineRunner */{
 
     @Autowired
     private UserService userService;
@@ -16,7 +16,7 @@ public class TfgApplication implements CommandLineRunner {
         SpringApplication.run(TfgApplication.class, args);
     }
 
-    @Override
+   /* @Override
     public void run(String... args) throws Exception {
         User user = new User();
 
@@ -26,5 +26,5 @@ public class TfgApplication implements CommandLineRunner {
 
          User savedUser = userService.saveUser(user);
         System.out.println("User saved: " + savedUser.getUsername());
-    }
+    }*/
 }
