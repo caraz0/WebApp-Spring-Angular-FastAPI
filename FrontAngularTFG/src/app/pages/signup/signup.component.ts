@@ -4,9 +4,10 @@ import {MatInput} from "@angular/material/input";
 import {MatInputModule} from "@angular/material/input";
 import {MatButton} from "@angular/material/button";
 import {UserRegistrationService} from "../../services/user-registration.service";
-import {HttpClient, HttpClientModule} from "@angular/common/http";
+import {HttpClientModule} from "@angular/common/http";
 import {FormsModule} from "@angular/forms";
-
+import {MatSnackBar} from "@angular/material/snack-bar";
+import {ToastrService} from "ngx-toastr";
 
 @Component({
   selector: 'app-signup',
@@ -28,21 +29,29 @@ export class SignupComponent {
     password: '',
     email: '',
    }
-  constructor(private userService:UserRegistrationService) { }
+  constructor(private userService:UserRegistrationService, private snack:MatSnackBar, private toast:ToastrService) { }
 
   formSubmit(){
     if(this.user.username=='' || this.user.password=='' || this.user.email==''){
-      alert('All fields are required');
+      this.snack.open('Fields cannot be empty', 'Aceptar', {
+        duration: 3000,
+        verticalPosition: 'top',
+        horizontalPosition: 'right'
+      });
       return;
     }
     this.userService.doRegistration(this.user).subscribe(
       data=>{
         console.log(data);
-        alert('Registration Successful');
+        this.toast.success('Registration Successful', );
+        //alert('Registration Successful');
       },
       error=>{
         console.log(error);
-        alert('Something went wrong');
+          this.snack.open('Something went wrong', 'Aceptar', {
+          duration: 3000,
+
+        });
       }
     )
   }
