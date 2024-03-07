@@ -4,10 +4,19 @@
   </a>
   <span>Macroeconomy</span>
   <span class="example-spacer"></span>
-  <a [routerLink]="'/login'" mat-icon-button class="example-icon" arial-label="Example icon">
+  <a *ngIf = "!login.isLoggedIn()" [routerLink]="'/login'" mat-icon-button class="example-icon" arial-label="Example icon">
   <mat-icon>login</mat-icon>
   </a>
-  <a [routerLink]="'/signup'" mat-icon-button class="example-icon" arial-label="Example icon">
+  <a *ngIf = "!login.isLoggedIn()"  [routerLink]="'/signup'" mat-icon-button class="example-icon" arial-label="Example icon">
   <mat-icon>person_add</mat-icon>
   </a>
+  <a *ngIf = "login.isLoggedIn()"
+     (click) = "login.logOut()" mat-icon-button class="example-icon mr10 ml10" arial-label="Example icon">
+    Cerrar sesión
+  </a>
+  <button *ngIf = "login.isLoggedIn()" mat-button mat-icon-button styles = "margin-right: 10px" class="example-icon" arial-label="Example icon">
+
+    <mat-icon>account_circle</mat-icon>
+
+  </button>
 </mat-toolbar>

@@ -30,10 +30,10 @@ public class JWTAuthFilter extends OncePerRequestFilter {
 
     @Override
     protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain filterChain) throws ServletException, IOException {
-        if (request.getServletPath().contains("/authenticate")) {
+        /*if ((request.getServletPath().contains("/authenticate")) || (request.getServletPath().contains("/users/save"))){
             filterChain.doFilter(request, response);
             return;
-        }
+        }*/
         String requestTokenHeader = request.getHeader("Authorization");
         String username = null;
         String jwtToken = null;
@@ -60,8 +60,7 @@ public class JWTAuthFilter extends OncePerRequestFilter {
                 logger.error("Token no válido");
 
             }
-            filterChain.doFilter(request, response);
         }
-
+        filterChain.doFilter(request, response);
     }
 }

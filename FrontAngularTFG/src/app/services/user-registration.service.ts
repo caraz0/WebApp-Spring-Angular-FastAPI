@@ -10,6 +10,6 @@ export class UserRegistrationService {
   constructor(private http:HttpClient) { }
 
   public doRegistration(user:any){
-    return this.http.post(`${baseUrl}/users/`, user, {responseType: 'text' as 'json'});
+    return this.http.post(`${baseUrl}/users/save`, user, {responseType: 'text' as 'json'});
   }
 }

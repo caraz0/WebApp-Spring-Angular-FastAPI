@@ -3,6 +3,7 @@ package io.github.caraz0.tfg.controller;
 import io.github.caraz0.tfg.configs.JWTUtils;
 import io.github.caraz0.tfg.model.JWTRequest;
 import io.github.caraz0.tfg.model.JWTResponse;
+import io.github.caraz0.tfg.model.User;
 import io.github.caraz0.tfg.service.UserDetailsServ;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
@@ -12,11 +13,12 @@ import org.springframework.security.authentication.DisabledException;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
+
+import java.security.Principal;
 
 @RestController
+@CrossOrigin("*")
 public class AuthController {
     @Autowired
     AuthenticationManager authenticationManager;
@@ -49,6 +51,11 @@ public class AuthController {
             e.printStackTrace();
 
         }
+    }
+
+    @GetMapping("/currentUser")
+    public User getCurrentUser(Principal principal){
+        return (User) this.userDetailsServ.loadUserByUsername(principal.getName());
     }
 
 

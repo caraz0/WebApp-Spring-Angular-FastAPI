@@ -9,16 +9,16 @@
 
           <h1 class="text-center">Log in</h1>
 
-          <form>
+          <form (ngSubmit) = "onSubmit()">
             <mat-form-field class="full-width" appearance="outline">
               <mat-label>Username</mat-label>
-              <input required  name="username" matInput placeholder="Write your username" >
+              <input [(ngModel)] = "loginForm.username" required name="username" matInput placeholder="Write your username" >
               <mat-hint>The username must be...</mat-hint>
             </mat-form-field>
 
             <mat-form-field class="full-width" appearance="outline">
               <mat-label>Password</mat-label>
-              <input required name="password" type="password" matInput placeholder="Write your Password">
+              <input [(ngModel)] = "loginForm.password" required name="password" type="password" matInput placeholder="Write your Password">
               <mat-hint>Password must be...</mat-hint>
             </mat-form-field>
 
