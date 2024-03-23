@@ -1,16 +1,18 @@
-<mat-toolbar color ="primary">
+<mat-toolbar style ="background-color: #140F1C">
 
 
   <mat-toolbar-row>
-    <a [routerLink]="'/'" mat-icon-button class="example-icon" arial-label="Example icon">
-      <mat-icon>home</mat-icon>
+    <a [routerLink]="'/'"><img Src="assets/financifywhite.png"  width="133" height="40" /></a>
+    <a [routerLink]="'/'" mat-icon-button class="example-icon" arial-label="Example icon" style="margin-left: 20px">
+      <mat-icon>menu</mat-icon>
     </a>
-    <span class="navbar-brand">Macroeconomy</span>
     <nav>
-      <button style="margin-left: 20px" mat-flat-button color="primary" [routerLink]="'/macro'">Macro</button>
-      <button mat-flat-button color="primary" [routerLink]="'/index'">Indexes</button>
-      <button mat-flat-button color="primary" [routerLink]="'/forex'">Forex</button>
-      <button mat-flat-button color="primary" [routerLink]="'/stock'">Stocks</button>
+
+      <button style="margin-left: 20px; background-color: #140F1C" mat-flat-button [routerLink]="'/macro'">Macro</button>
+      <button mat-flat-button style ="background-color: #140F1C" [routerLink]="'/index'">Indexes</button>
+      <button mat-flat-button style ="background-color: #140F1C" [routerLink]="'/forex'">Forex</button>
+      <button mat-flat-button style ="background-color: #140F1C" [routerLink]="'/stock'">Stocks</button>
+      <button mat-flat-button style ="background-color: #140F1C" [routerLink]="'/portfolio'">Portfolio</button>
     </nav>
     <span class="example-spacer"></span>
 

@@ -6,6 +6,7 @@ import {MacrodataComponent} from "./pages/macrodata/macrodata.component";
 import {IndexComponent} from "./pages/index/index.component";
 import {ForexComponent} from "./pages/forex/forex.component";
 import {StockComponent} from "./pages/stock/stock.component";
+import {PortfolioComponent} from "./pages/portfolio/portfolio.component";
 
 export const routes: Routes = [
   {
@@ -41,6 +42,11 @@ export const routes: Routes = [
   {
     path:'stock',
     component: StockComponent,
+    pathMatch: 'full'
+  },
+  {
+    path:'portfolio',
+    component: PortfolioComponent,
     pathMatch: 'full'
   }
 ];

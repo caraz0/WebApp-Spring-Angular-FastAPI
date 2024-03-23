@@ -1,14 +1,30 @@
 <div class="bootstrap-wrapper">
-  <div class="row mt10">
-    <div class="col-md-6 ml10">
-      <mat-card>
-        <div class="row">
-          <div id="chart-container" class="col-md-6 offset-md-1" style="position:absolute; width: 100%; margin-top: 20px; margin-bottom: 20px"></div>
-          <div id="chart-container" class="col-md-6 offset-md-1" style="position:absolute; width: 100%; margin-top: 20px; margin-bottom: 20px"></div>
+  <div class="row mt10 " >
+    <div class="col ml10">
 
-        </div>
-      </mat-card>
+      <app-chart [ticker]="ticker" style="align-content: center"></app-chart>
+
+    </div>
+    <div class="col ml10">
+
+      <app-chart [ticker]="ticker2"></app-chart>
+
     </div>
   </div>
+
+  <div class="row mt10" >
+    <div class="col ml10 mt10">
+
+      <app-chart [ticker]="ticker3"></app-chart>
+
+    </div>
+
+    <div class="col ml10 mt10">
+
+      <app-chart [ticker]="ticker4"></app-chart>
+
+    </div>
+  </div>
+
 </div>
 

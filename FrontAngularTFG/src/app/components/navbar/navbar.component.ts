@@ -4,7 +4,7 @@ import {RouterLink} from "@angular/router";
 import {MatButton, MatIconAnchor} from "@angular/material/button";
 import {MatIcon} from "@angular/material/icon";
 import {LoginService} from "../../services/login.service";
-import {NgIf} from "@angular/common";
+import {NgIf, NgOptimizedImage} from "@angular/common";
 
 @Component({
   selector: 'app-navbar',
@@ -16,7 +16,8 @@ import {NgIf} from "@angular/common";
     MatIcon,
     NgIf,
     MatToolbarRow,
-    MatButton
+    MatButton,
+    NgOptimizedImage
   ],
   templateUrl: './navbar.component.html',
   styleUrl: './navbar.component.css'

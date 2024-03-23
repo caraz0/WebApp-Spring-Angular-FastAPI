@@ -5,6 +5,7 @@ import {MatButton} from "@angular/material/button";
 import {MatCard} from "@angular/material/card";
 import {MatFormField, MatHint, MatLabel} from "@angular/material/form-field";
 import {MatInput} from "@angular/material/input";
+import {ChartComponent} from "../../components/chart/chart.component";
 
 @Component({
   selector: 'app-home',
@@ -17,7 +18,8 @@ import {MatInput} from "@angular/material/input";
     MatHint,
     MatInput,
     MatLabel,
-    ReactiveFormsModule
+    ReactiveFormsModule,
+    ChartComponent
   ],
   templateUrl: './home.component.html',
   styleUrl: './home.component.css'
@@ -25,8 +27,12 @@ import {MatInput} from "@angular/material/input";
 export class HomeComponent implements OnInit, OnDestroy{
   private chart: any;
   private candlestickSeries: any;
+
+  ticker : string = '^IBEX';
+  ticker2 : string = '^GSPC';
+  ticker3 : string = '^DJI';
+  ticker4 : string = '^STOXX50E';
   ngOnInit() {
-    this.createChart();
   }
 
   ngOnDestroy() {
