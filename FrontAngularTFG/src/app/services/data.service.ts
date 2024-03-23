@@ -12,4 +12,11 @@ export class DataService {
     return this.http.get(`http://localhost:8000/get_stock_data/?ticker=${ticker}`);
   }
 
+  getStockName(ticker: string) {
+    return this.http.get(`http://localhost:8000/get_stock_name/?ticker=${ticker}`);
+  }
+
+  getStockLastValue(ticker: string) {
+    return this.http.get(`http://localhost:8000/get_stock_lastvalue/?ticker=${ticker}`);
+  }
 }

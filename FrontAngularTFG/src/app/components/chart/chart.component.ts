@@ -21,6 +21,10 @@ export class ChartComponent implements OnInit{
   private candlestickSeries: any;
   protected ticker2: string = '';
 
+  tickerName: string = '';
+  lastValue: number = 0;
+  currency: string = '';
+
   stockData: Object | undefined = [];
 
   @Input() ticker: string = '';
@@ -28,8 +32,20 @@ export class ChartComponent implements OnInit{
   async ngOnInit() {
     await this.loadStockData();
     this.createChart();
+    this.getStockName();
+    this.getLastValue();
   }
-
+  getStockName() {
+    this.stockService.getStockName(this.ticker).subscribe((data: any) => {
+      this.tickerName = data;
+    });
+  }
+  getLastValue() {
+    this.stockService.getStockLastValue(this.ticker).subscribe((data: any) => {
+      this.lastValue = data.last_value;
+      this.currency = data.currency;
+    });
+  }
   async loadStockData() {
     // Aquí cargas los datos de la acción utilizando el servicio StockService
     this.stockData = await this.stockService.getStockData(this.ticker).toPromise()
@@ -37,6 +53,8 @@ export class ChartComponent implements OnInit{
   }
 
   createChart() {
+
+
     const container = document.getElementById("chart-container" + this.ticker);
 
     if (!container) {
@@ -83,6 +101,5 @@ export class ChartComponent implements OnInit{
     series.setData(this.stockData);
 
   }
-
 
 }
