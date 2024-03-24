@@ -1,15 +1,42 @@
 <div class="bootstrap-wrapper">
-  <div class="row mt10" style="justify-content: space-between">
-    <div class="col ml10">
-          <div id="chart-container1" class="col-md-6 offset-md-1" style=" width: 100%; margin-top: 20px; margin-bottom: 20px"></div>
+  <div class="row " >
+    <div class="col ml10 mt10">
+
+      <app-chart [ticker]="ticker" style="display: flex; justify-content: center;"></app-chart>
 
     </div>
-    <div class="col ml10">
+    <div class="col ml10 mt10">
 
-      <div id="chart-container2" class="col-md-6 offset-md-1" style=" width: 100%; margin-top: 20px; margin-bottom: 20px"></div>
+      <app-chart [ticker]="ticker2" style="display: flex; justify-content: center;"></app-chart>
 
     </div>
   </div>
 
+  <div class="row " >
+    <div class="col ml10 mt10">
+
+      <app-chart [ticker]="ticker3" style="display: flex; justify-content: center;"></app-chart>
+
+    </div>
+
+    <div class="col ml10 mt10">
+
+      <app-chart [ticker]="ticker4" style="display: flex; justify-content: center;"></app-chart>
+
+    </div>
+  </div>
+  <div class="row " >
+    <div class="col ml10 mt10">
+
+      <app-chart [ticker]="ticker5" style="display: flex; justify-content: center;"></app-chart>
+
+    </div>
+
+    <div class="col ml10 mt10">
+
+      <app-chart [ticker]="ticker6" style="display: flex; justify-content: center;"></app-chart>
+
+    </div>
+  </div>
 </div>
 

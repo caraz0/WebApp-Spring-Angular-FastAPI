@@ -1,0 +1,24 @@
+<div class="transaction-dialog-container">
+  <h2>Add Transaction</h2>
+  <form #transactionForm="ngForm" (ngSubmit)="saveTransaction(ticker.value, parseQuantity(quantity.value), parseFloat(price.value), parseDate(date.value))">
+    <mat-form-field>
+      <mat-label>Ticker</mat-label>
+      <mat-select placeholder="Seleccione un Ticker" #ticker="ngModel" ngModel name="ticker" required>
+        <mat-option value="AAPL">AAPL (Apple Inc.)</mat-option>
+        <mat-option value="GOOGL">GOOGL (Alphabet Inc.)</mat-option>
+        <mat-option value="MSFT">MSFT (Microsoft Corporation)</mat-option>
+      </mat-select>
+    </mat-form-field>
+    <mat-form-field>
+      <input matInput type="number" #quantity  placeholder="Quantity" min="1" required>
+    </mat-form-field>
+    <mat-form-field>
+      <input matInput type="number"  #price placeholder="Price" required>
+    </mat-form-field>
+    <mat-form-field>
+      <input matInput type="date" #date placeholder="Date" required>
+    </mat-form-field>
+
+    <button mat-button type="submit">Add </button>
+  </form>
+</div>

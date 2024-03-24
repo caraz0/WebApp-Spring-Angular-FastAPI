@@ -7,6 +7,7 @@ import {IndexComponent} from "./pages/index/index.component";
 import {ForexComponent} from "./pages/forex/forex.component";
 import {StockComponent} from "./pages/stock/stock.component";
 import {PortfolioComponent} from "./pages/portfolio/portfolio.component";
+import {CommoditiesComponent} from "./pages/commodities/commodities.component";
 
 export const routes: Routes = [
   {
@@ -42,6 +43,11 @@ export const routes: Routes = [
   {
     path:'stock',
     component: StockComponent,
+    pathMatch: 'full'
+  },
+  {
+    path:'commodities',
+    component: CommoditiesComponent,
     pathMatch: 'full'
   },
   {

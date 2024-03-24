@@ -1,0 +1,15 @@
+.transaction-dialog-container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: 20px;
+}
+
+.transaction-dialog-container h2 {
+  margin-bottom: 20px;
+}
+
+.transaction-dialog-container form {
+  width: 300px;
+}

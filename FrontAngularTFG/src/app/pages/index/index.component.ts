@@ -6,6 +6,7 @@ import {MatCard} from "@angular/material/card";
 import {MatFormField, MatHint, MatLabel} from "@angular/material/form-field";
 import {MatInput} from "@angular/material/input";
 import {DataService} from "../../services/data.service";
+import {ChartComponent} from "../../components/chart/chart.component";
 
 @Component({
   selector: 'app-index',
@@ -18,12 +19,21 @@ import {DataService} from "../../services/data.service";
     MatHint,
     MatInput,
     MatLabel,
-    ReactiveFormsModule
+    ReactiveFormsModule,
+    ChartComponent
   ],
   templateUrl: './index.component.html',
   styleUrl: './index.component.css'
 })
 export class IndexComponent implements OnInit {
+
+  ticker : string = '^IBEX';
+  ticker2 : string = '^GSPC';
+  ticker3 : string = '^DJI';
+  ticker4 : string = '^STOXX50E';
+  ticker5 : string = '^IXIC';
+  ticker6 : string = '^N225';
+
   private chart: any;
   private candlestickSeries: any;
 
