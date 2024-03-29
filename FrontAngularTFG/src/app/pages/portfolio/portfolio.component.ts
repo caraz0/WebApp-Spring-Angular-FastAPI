@@ -50,7 +50,7 @@ import {DatePipe} from "@angular/common";
 export class PortfolioComponent {
 
   transactions: any[] = [];
-  displayedColumns: string[] = ['ticker', 'quantity', 'price', 'date'];
+  displayedColumns: string[] = ['ticker', 'quantity', 'price', 'picker'];
   dataSource = new MatTableDataSource<any>;
 
   constructor(public dialog: MatDialog) {

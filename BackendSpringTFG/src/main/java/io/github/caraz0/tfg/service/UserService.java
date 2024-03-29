@@ -5,6 +5,8 @@ import io.github.caraz0.tfg.repository.UserRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
+import java.util.Optional;
+
 @Service
 @RequiredArgsConstructor
 public class UserService implements IUserService{
@@ -29,6 +31,12 @@ public class UserService implements IUserService{
     @Override
     public void deleteUser(long id) {
         userRepository.deleteById(id);
+    }
+
+    @Override
+    public Optional<User> getUserByID(long id) {
+
+        return userRepository.findById(id);
     }
     // public ResponseEntity<User> login(User user) {
     //     return userRepository.login(user);

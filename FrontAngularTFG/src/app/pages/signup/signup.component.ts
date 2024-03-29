@@ -8,6 +8,8 @@ import {HttpClientModule} from "@angular/common/http";
 import {FormsModule} from "@angular/forms";
 import {MatSnackBar} from "@angular/material/snack-bar";
 import {ToastrService} from "ngx-toastr";
+import {RouterLink} from "@angular/router";
+import {NgOptimizedImage} from "@angular/common";
 
 @Component({
   selector: 'app-signup',
@@ -18,7 +20,9 @@ import {ToastrService} from "ngx-toastr";
     MatButton,
     MatInputModule,
     HttpClientModule,
-    FormsModule
+    FormsModule,
+    RouterLink,
+    NgOptimizedImage
   ],
   templateUrl: './signup.component.html',
   styleUrl: './signup.component.css'

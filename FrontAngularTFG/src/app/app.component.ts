@@ -10,6 +10,7 @@ import {MatCardModule} from "@angular/material/card";
 import {MatToolbarModule} from "@angular/material/toolbar";
 import {MatIconModule} from "@angular/material/icon";
 import {MatDialog, MatDialogModule} from "@angular/material/dialog";
+import {TypeaheadModule} from "ngx-bootstrap/typeahead";
 
 
 @Component({
@@ -17,7 +18,7 @@ import {MatDialog, MatDialogModule} from "@angular/material/dialog";
   standalone: true,
   imports: [RouterOutlet, NavbarComponent, SignupComponent, HttpClientModule,
     MatSnackBarModule, MatCardModule, MatToolbarModule, MatIconModule,
-  MatDialogModule, MatButtonModule],
+  MatDialogModule, MatButtonModule, TypeaheadModule],
   templateUrl: './app.component.html',
   styleUrl: './app.component.css'
 })

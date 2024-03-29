@@ -32,6 +32,11 @@ public class User implements UserDetails {
     @Column(nullable = false)
     private String email;
 
+    @OneToMany(fetch = FetchType.LAZY, mappedBy = "user", cascade = CascadeType.ALL)
+    private List<WatchList> watchList;
+    @OneToMany(fetch = FetchType.LAZY, mappedBy = "user", cascade = CascadeType.ALL)
+    private List<PortfolioEntry> portfolioEntry;
+
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
         return List.of();
@@ -55,5 +60,9 @@ public class User implements UserDetails {
     @Override
     public boolean isEnabled() {
         return true;
+    }
+
+    public List<WatchList> getWatchList() {
+        return watchList;
     }
 }

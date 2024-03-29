@@ -1,6 +1,6 @@
 <div class="transaction-dialog-container">
   <h2>Add Transaction</h2>
-  <form #transactionForm="ngForm" (ngSubmit)="saveTransaction(ticker.value, parseQuantity(quantity.value), parseFloat(price.value), parseDate(date.value))">
+  <form #transactionForm="ngForm" (ngSubmit)="saveTransaction(ticker.value, parseQuantity(quantity.value), parseFloat(price.value), picker)">
     <mat-form-field>
       <mat-label>Ticker</mat-label>
       <mat-select placeholder="Seleccione un Ticker" #ticker="ngModel" ngModel name="ticker" required>
@@ -16,7 +16,11 @@
       <input matInput type="number"  #price placeholder="Price" required>
     </mat-form-field>
     <mat-form-field>
-      <input matInput type="date" #date placeholder="Date" required>
+      <mat-label>Choose a date</mat-label>
+      <input matInput [matDatepicker]="picker">
+      <mat-hint>MM/DD/YYYY</mat-hint>
+      <mat-datepicker-toggle matIconSuffix [for]="picker"></mat-datepicker-toggle>
+      <mat-datepicker #picker></mat-datepicker>
     </mat-form-field>
 
     <button mat-button type="submit">Add </button>

@@ -6,6 +6,7 @@ import {MatInput} from "@angular/material/input";
 import {MatCard} from "@angular/material/card";
 import {MatSnackBar} from "@angular/material/snack-bar";
 import {LoginService} from "../../services/login.service";
+import {RouterLink} from "@angular/router";
 
 @Component({
   selector: 'app-login',
@@ -18,7 +19,8 @@ import {LoginService} from "../../services/login.service";
     MatInput,
     MatLabel,
     ReactiveFormsModule,
-    MatCard
+    MatCard,
+    RouterLink
 
   ],
   templateUrl: './login.component.html',

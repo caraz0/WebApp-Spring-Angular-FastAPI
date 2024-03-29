@@ -47,7 +47,7 @@ public class SecurityConf {
 
                 .exceptionHandling(exception -> exception.authenticationEntryPoint(unauthorizedHandler))
                 .sessionManagement(session -> session.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
-                .authorizeHttpRequests(auth -> auth.requestMatchers("/authenticate", "/users/save").permitAll()
+                .authorizeHttpRequests(auth -> auth.requestMatchers("/authenticate", "/users/save", "users/saveWatchList/1").permitAll()
                         .anyRequest().authenticated());
         http.addFilterBefore(jwtAuthFilter, UsernamePasswordAuthenticationFilter.class);
         http.authenticationProvider(authenticationProvider());

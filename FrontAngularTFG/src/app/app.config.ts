@@ -8,10 +8,11 @@ import {provideAnimations} from "@angular/platform-browser/animations";
 import {provideToastr} from "ngx-toastr";
 import {authInterceptorProviders} from "./services/auth.interceptor";
 import {DatePipe} from "@angular/common";
+import {NativeDateAdapter, provideNativeDateAdapter} from "@angular/material/core";
 
 export const appConfig: ApplicationConfig = {
   providers: [provideRouter(routes), provideAnimationsAsync(), provideHttpClient(withFetch()), provideAnimations(),
-    provideToastr(), authInterceptorProviders, DatePipe
+    provideToastr(), authInterceptorProviders, DatePipe, provideNativeDateAdapter(),
   ]
 
 };

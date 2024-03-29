@@ -13,38 +13,15 @@ app.add_middleware(
     CORSMiddleware,
     allow_origins=origins,
     allow_credentials=True,
-    allow_methods=["GET"],
+    allow_methods=["*"],
     allow_headers=["*"],
 )
-
-msft = yf.Ticker("GC=F")
-
-# get all stock info
-print(msft.info)
-
-# get historical market data
-data = yf.Tickers('msft aapl goog')
-# show meta information about the history (requires history() to be called first)
-msft.history_metadata
-
-# show actions (dividends, splits, capital gains)
-msft.actions
-msft.dividends
-msft.splits
-msft.capital_gains  # only for mutual funds & etfs
-
-# show share count
-msft.get_shares_full(start="2022-01-01", end=None)
-
-# show news
-print(msft.news)
 
 
 @app.get("/get_stock_data/")
 async def get_stock_data(ticker: str):
     stock = yf.Ticker(ticker)
     data = stock.history(period="5y")
-
     data = data.reset_index()
     data["Date"] = data["Date"].dt.strftime("%Y-%m-%d")
     result = [{"time": str(date), "value": close} for date, close in zip(data["Date"], data["Close"])]
@@ -67,3 +44,48 @@ async def say_hello(ticker: str):
 
     return {"last_value": last_value, "currency": currency}
 
+
+
+
+ipc_data = [
+    {'time': '2021-09-15', 'value': 4},
+    {'time': '2021-10-15', 'value': 5.4},
+    {'time': '2021-11-15', 'value': 5.5},
+    {'time': '2021-12-15', 'value': 6.5},
+    {'time': '2022-01-15', 'value': 6.1},
+    {'time': '2022-02-15', 'value': 7.6},
+    {'time': '2022-03-15', 'value': 9.8},
+    {'time': '2022-04-15', 'value': 8.3},
+    {'time': '2022-05-15', 'value': 8.7},
+    {'time': '2022-06-15', 'value': 10.2},
+    {'time': '2022-07-15', 'value': 10.8},
+    {'time': '2022-08-15', 'value': 10.5},
+    {'time': '2022-09-15', 'value': 8.9},
+    {'time': '2022-10-15', 'value': 7.3},
+    {'time': '2022-11-15', 'value': 6.8},
+    {'time': '2022-12-15', 'value': 5.7},
+    {'time': '2023-01-15', 'value': 5.9},
+    {'time': '2023-02-15', 'value': 6},
+    {'time': '2023-03-15', 'value': 3.3},
+    {'time': '2023-04-15', 'value': 4.1},
+    {'time': '2023-05-15', 'value': 3.2},
+    {'time': '2023-06-15', 'value': 1.9},
+    {'time': '2023-07-15', 'value': 2.3},
+    {'time': '2023-08-15', 'value': 2.6},
+    {'time': '2023-09-15', 'value': 3.5},
+    {'time': '2023-10-15', 'value': 3.5},
+    {'time': '2023-11-15', 'value': 3.2},
+    {'time': '2023-12-15', 'value': 3.1},
+    {'time': '2024-01-15', 'value': 3.4},
+    {'time': '2024-02-15', 'value': 2.8}
+]
+
+
+@app.get("/get_macro_data/")
+async def data(ticker: str):
+    if ticker == "IPCESP":
+        return ipc_data
+    elif ticker == "IPCEEUU":
+        return "El string no es igual a 'palabra'"
+    else:
+        return

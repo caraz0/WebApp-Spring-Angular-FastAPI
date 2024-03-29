@@ -19,4 +19,11 @@ export class DataService {
   getStockLastValue(ticker: string) {
     return this.http.get(`http://localhost:8000/get_stock_lastvalue/?ticker=${ticker}`);
   }
+  sendData(data: any) {
+    return this.http.post<any>('http://localhost:8000/tracker_stock_data', data);
+  }
+
+  getMacroData(ticker: string) {
+    return this.http.get(`http://localhost:8000/get_macro_data/?ticker=${ticker}`);
+  }
 }

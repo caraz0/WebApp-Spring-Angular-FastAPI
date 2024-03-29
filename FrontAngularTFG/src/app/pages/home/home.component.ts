@@ -6,6 +6,8 @@ import {MatCard} from "@angular/material/card";
 import {MatFormField, MatHint, MatLabel} from "@angular/material/form-field";
 import {MatInput} from "@angular/material/input";
 import {ChartComponent} from "../../components/chart/chart.component";
+import {MatIcon} from "@angular/material/icon";
+import {NgOptimizedImage} from "@angular/common";
 
 @Component({
   selector: 'app-home',
@@ -19,7 +21,9 @@ import {ChartComponent} from "../../components/chart/chart.component";
     MatInput,
     MatLabel,
     ReactiveFormsModule,
-    ChartComponent
+    ChartComponent,
+    MatIcon,
+    NgOptimizedImage
   ],
   templateUrl: './home.component.html',
   styleUrl: './home.component.css'

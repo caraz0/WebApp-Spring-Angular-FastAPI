@@ -4,56 +4,43 @@ import { createChart,CrosshairMode, ISeriesApi } from 'lightweight-charts';
 import {MatCard, MatCardContent, MatCardHeader, MatCardSubtitle, MatCardTitle} from "@angular/material/card";
 
 @Component({
-  selector: 'app-chart',
+  selector: 'app-charttemplate',
   standalone: true,
-  imports: [
-    MatCard,
-    MatCardContent,
-    MatCardHeader,
-    MatCardTitle,
-    MatCardSubtitle
-  ],
-  templateUrl: './chart.component.html',
-  styleUrl: './chart.component.css'
+    imports: [
+        MatCard,
+        MatCardContent,
+        MatCardHeader,
+        MatCardSubtitle,
+        MatCardTitle
+    ],
+  templateUrl: './charttemplate.component.html',
+  styleUrl: './charttemplate.component.css'
 })
-export class ChartComponent implements OnInit{
+export class CharttemplateComponent implements OnInit{
   private chart: any;
-  private candlestickSeries: any;
   protected ticker2: string = '';
 
   tickerName: string = '';
   lastValue: number = 0;
   currency: string = '';
 
-  stockData: Object | undefined = [];
+
 
   @Input() ticker: string = '';
+  stockData: Object | undefined = [];
   constructor(private stockService: DataService) { }
   async ngOnInit() {
     await this.loadStockData();
     this.createChart();
-    this.getStockName();
-    this.getLastValue();
-  }
-  getStockName() {
-    this.stockService.getStockName(this.ticker).subscribe((data: any) => {
-      this.tickerName = data;
-    });
-  }
-  getLastValue() {
-    this.stockService.getStockLastValue(this.ticker).subscribe((data: any) => {
-      this.lastValue = data.last_value;
-      this.currency = data.currency;
-    });
+
   }
   async loadStockData() {
-    this.stockData = await this.stockService.getStockData(this.ticker).toPromise()
+    this.stockData = await this.stockService.getMacroData(this.ticker).toPromise()
     this.ticker2 = this.ticker.replace('^', '');
 
   }
 
   createChart() {
-
 
     const container = document.getElementById("chart-container" + this.ticker);
 
