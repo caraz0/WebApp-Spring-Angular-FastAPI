@@ -31,22 +31,22 @@ import {ChartComponent} from "../../components/chart/chart.component";
   styleUrl: './watchlist.component.css'
 })
 export class WatchlistComponent {
-  options: string[] = ['APPL', 'AMZN', 'MSFT'];
-  @ViewChild('input') input!: ElementRef<HTMLInputElement>;
+  options: string[] = ['AAPL', 'AMZN', 'MSFT'];
   myControl = new FormControl('');
   filteredOptions: string[];
-
+  inputValue: string = '';
+  inputValues: string[] = [];
   constructor() {
     this.filteredOptions = this.options.slice();
   }
 
-  filter(): void {
-    const filterValue = this.input.nativeElement.value.toLowerCase();
-    this.filteredOptions = this.options.filter(o => o.toLowerCase().includes(filterValue));
-  }
-
   showChart: boolean = false;
   getValue() {
+    if (this.myControl.value != null) {
+      this.inputValue = this.myControl.value;
+      this.inputValues.push(this.inputValue);
+    }
+
     this.showChart = true;
   }
 }

@@ -23,9 +23,6 @@ import org.springframework.security.web.authentication.UsernamePasswordAuthentic
 public class SecurityConf {
 
     @Autowired
-    private JWTAuthEntryPoint unauthorizedHandler;
-
-    @Autowired
     private JWTAuthFilter jwtAuthFilter;
 
     @Autowired
@@ -45,9 +42,8 @@ public class SecurityConf {
     public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
         http.csrf(csrf -> csrf.disable())
 
-                .exceptionHandling(exception -> exception.authenticationEntryPoint(unauthorizedHandler))
                 .sessionManagement(session -> session.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
-                .authorizeHttpRequests(auth -> auth.requestMatchers("/authenticate", "/users/save", "users/saveWatchList/1").permitAll()
+                .authorizeHttpRequests(auth -> auth.requestMatchers("/authenticate", "/users/save").permitAll()
                         .anyRequest().authenticated());
         http.addFilterBefore(jwtAuthFilter, UsernamePasswordAuthenticationFilter.class);
         http.authenticationProvider(authenticationProvider());

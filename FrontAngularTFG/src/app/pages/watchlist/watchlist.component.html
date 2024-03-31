@@ -1,17 +1,13 @@
-
-Control value: {{myControl.value || 'empty'}}
 <div class="search-container">
   <form class="form">
     <mat-form-field class="full-width">
-      <mat-label>Number</mat-label>
+      <mat-label>Symbol</mat-label>
       <input type="text"
              placeholder="Pick one"
-             aria-label="Number"
+             aria-label="Symbol"
              matInput
              [formControl]="myControl"
-             [matAutocomplete]="auto"
-              (input)="filter()"
-              (focus)="filter()">
+             [matAutocomplete]="auto">
       <mat-autocomplete #auto="matAutocomplete">
         @for (option of options; track option) {
           <mat-option [value]="option">{{option}}</mat-option>
@@ -19,15 +15,16 @@ Control value: {{myControl.value || 'empty'}}
       </mat-autocomplete>
     </mat-form-field>
     <button mat-flat-button type="button" style = "margin-left: 20px" (click)="getValue()">Add</button>
-
   </form>
 </div>
-<div class="bootstrap-wrapper" *ngIf="showChart">
-  <div class="row " >
-    <div class="col ml10 mt10">
+<ng-container *ngIf="showChart">
+  <div class="bootstrap-wrapper" *ngFor="let inputValue of inputValues">
+    <div class="row " >
+      <div class="col ml10 mt10">
 
-      <app-chart [ticker]="myControl.value || 'empty'" style="display: flex; justify-content: center;"></app-chart>
+        <app-chart [ticker]="inputValue" style="display: flex; justify-content: center;"></app-chart>
 
+      </div>
     </div>
   </div>
-</div>
+</ng-container>

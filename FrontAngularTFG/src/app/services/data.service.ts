@@ -26,4 +26,8 @@ export class DataService {
   getMacroData(ticker: string) {
     return this.http.get(`http://localhost:8000/get_macro_data/?ticker=${ticker}`);
   }
+
+  getComparedData(ticker: string, price: number, amount: number, date: string) {
+    return this.http.get(`http://localhost:8000/get_compared_data/?ticker=${ticker}&price=${price}&amount=${amount}&purchase_date=${date}`);
+  }
 }

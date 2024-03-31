@@ -6,7 +6,7 @@ import {MatButton} from "@angular/material/button";
 import {MatDialogRef} from "@angular/material/dialog";
 import {FormsModule} from "@angular/forms";
 import {
-  MatDatepicker,
+  MatDatepicker, MatDatepickerControl,
   MatDatepickerInput,
   MatDatepickerModule,
   MatDatepickerToggle
@@ -42,18 +42,32 @@ export class TransactionComponent {
   constructor(public dialogRef: MatDialogRef<TransactionComponent>) {}
 
   saveTransaction(ticker: string, quantity: number, price: number, picker: MatDatepicker<Date>): void {
+    const date: MatDatepickerControl<Date> = picker.datepickerInput;
+    const startDate = date.getStartValue();
+    if (startDate) {
+      const dateValue = this.formatDate(startDate);
+      console.log(ticker, quantity, price, startDate.toDateString());
+      const transaction = { ticker, quantity, price, dateValue };
+      this.dialogRef.close(transaction);
+    } else {
+      console.error('No se pudo obtener la fecha de inicio.');
+    }
 
-    const transaction = { ticker, quantity, price, picker};
-    this.dialogRef.close(transaction);
   }
 
   parseQuantity(value: string): number {
     return parseInt(value, 10);
   }
 
-  parseDate(value: string): Date {
-    return new Date(value);
+  formatDate(date: Date): string {
+    const year = date.getFullYear();
+    const month = this.padZero(date.getMonth() + 1);
+    const day = this.padZero(date.getDate());
+    return `${year}-${month}-${day}`;
   }
 
+  padZero(num: number): string {
+    return num < 10 ? `0${num}` : `${num}`;
+  }
   protected readonly parseFloat = parseFloat;
 }
