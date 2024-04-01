@@ -2,6 +2,7 @@ import {Component, OnInit} from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
 import { TransactionComponent } from '../../components/transaction/transaction.component';
 import { Data } from "./data";
+
 import {
   MatCard,
   MatCardActions,
@@ -10,7 +11,7 @@ import {
   MatCardSubtitle,
   MatCardTitle
 } from "@angular/material/card";
-import {MatButton, MatIconAnchor} from "@angular/material/button";
+import {MatButton, MatIconAnchor, MatIconButton} from "@angular/material/button";
 import {
   MatCell, MatCellDef,
   MatColumnDef,
@@ -21,10 +22,10 @@ import {
 } from "@angular/material/table";
 import {DatePipe, NgIf} from "@angular/common";
 import {DataService} from "../../services/data.service";
-import {DatahelperService} from "../../services/datahelper.service";
-import {WatchlistService} from "../../services/watchlist.service";
 import {PortfolioService} from "../../services/portfolio.service";
 import {MatIcon} from "@angular/material/icon";
+import { createChart,CrosshairMode, ISeriesApi } from 'lightweight-charts';
+import {ChartComponent} from "../../components/chart/chart.component";
 
 @Component({
   selector: 'app-portfolio',
@@ -50,7 +51,9 @@ import {MatIcon} from "@angular/material/icon";
     DatePipe,
     MatIcon,
     MatIconAnchor,
-    NgIf
+    NgIf,
+    MatIconButton,
+    ChartComponent
   ],
   templateUrl: './portfolio.component.html',
   styleUrl: './portfolio.component.css'
@@ -61,22 +64,21 @@ export class PortfolioComponent implements OnInit{
   transactions: any[] = [];
   displayedColumns: string[] = ['ticker', 'quantity', 'price', 'picker', 'delete'];
   dataSource = new MatTableDataSource<any>;
-  comparedData: Data[] = [];
   comparedDataList: Data[][] = [];
-
+  dataSum: Record<string, number> = {};
+  private chart: any;
+  showChart: boolean = false;
   constructor(public dialog: MatDialog, private dataService: DataService,
-              private portfolioService: PortfolioService, private dataHelper: DatahelperService){
+              private portfolioService: PortfolioService){
   }
 
-  ngOnInit(): void {
-     this.loadPortfolioEntries();
+  async ngOnInit()  {
+     await this.loadPortfolioEntries();
 
     }
 
-  loadPortfolioEntries() {
-    this.portfolioService.getPortfolioEntries().subscribe(
-      (data: any) => {
-        console.log('Datos recibidos:', data);
+  async loadPortfolioEntries() {
+    const data = await this.portfolioService.getPortfolioEntries().toPromise()
         if (Array.isArray(data)) {
           this.transactions = data.map(entry => ({
             id: entry.id,
@@ -86,16 +88,15 @@ export class PortfolioComponent implements OnInit{
             date: entry.date,
           }));
           this.dataSource.data = this.transactions;
-          console.log('Portfolios:', this.transactions);
-          console.log('Tipo de datos:', );
-          this.transactions.forEach(entry => {
-            this.dataService.getComparedData(entry.symbol, entry.price, entry.amount, entry.date)
+          for (const entry of  this.transactions) {
+            await this.dataService.getComparedData(entry.symbol, entry.price, entry.amount, entry.date)
               .toPromise()
               .then(data => {
+
                 if (data) {
                   const comparedData = data as Data[];
                   this.comparedDataList.push(comparedData);
-                  console.log('Datos comparados para', entry.symbol, ':', comparedData);
+
                 } else {
                   console.error('Datos no disponibles para', entry.symbol);
                 }
@@ -103,15 +104,17 @@ export class PortfolioComponent implements OnInit{
               .catch(error => {
                 console.error('Error al obtener datos del servicio para', entry.symbol, ':', error);
               });
-          });
+          }
+          this.dataSum = this.sumValuesForMatchingDates(...this.comparedDataList);
+          console.log('Datos comparados sumados',  ':', this.dataSum);
+
+          this.showChart = true;
+
+          this.createChart();
+
         } else {
           console.error('Datos recibidos no son un array:', data);
-        }
-      },
-      (error: any) => {
-        console.error('Error al cargar los Portfolios:', error);
       }
-    );
   }
 
   openTransactionDialog(): void {
@@ -120,33 +123,12 @@ export class PortfolioComponent implements OnInit{
     });
 
     dialogRef.afterClosed().subscribe(result => {
-
       if (result) {
         this.portfolioService.addPortfolioEntry(result).subscribe(_ => {
           this.loadPortfolioEntries()
+          window.location.reload()
         });
-
-        this.dataSource.data = this.transactions;
-        const ticker = result.symbol;
-        this.dataService.getComparedData(result.symbol, result.price, result.amount, result.date)
-          .toPromise()
-          .then(data => {
-            if (data) {
-              this.comparedData = data as Data[];
-
-              this.comparedDataList.push(this.comparedData);
-              console.log(this.comparedData);
-              console.log(this.comparedDataList);
-            } else {
-              console.error('Datos no disponibles');
-            }
-          })
-          .catch(error => {
-            console.error('Error al obtener datos del servicio:', error);
-          });
       }
-
-
     });
   }
   deleteTransaction(transaction: any): void {
@@ -159,6 +141,7 @@ export class PortfolioComponent implements OnInit{
       this.portfolioService.deletePortfolioEntry(transaction.id).subscribe(
         () => {
           this.loadPortfolioEntries();
+          window.location.reload()
           console.log('Entrada eliminada exitosamente');
         },
         (error) => {
@@ -172,6 +155,76 @@ export class PortfolioComponent implements OnInit{
     }
   }
 
+  sumValuesForMatchingDates(...dataArray: Data[][]): Record<string, number> {
+    const result: Record<string, number> = {};
 
+    for (const data of dataArray) {
+      const mapData = new Map(data.map(entry => [entry.time, entry.value]));
+
+      for (const [time, value] of mapData) {
+        if (result[time]) {
+          result[time] += value;
+        } else {
+          result[time] = value;
+        }
+      }
+    }
+    return result;
+  }
+
+  createChart() {
+    const container = document.getElementById("chart-container");
+    if (!container) {
+      return;
+    }
+    this.chart = createChart(container, {
+      width: 500,
+      height: 250,
+      layout: {
+        background: {color: '#140F1C'},
+        textColor: 'white',
+      },
+      leftPriceScale: {
+        scaleMargins: {
+          top: 0.3,
+          bottom: 0.25,
+        },
+        visible: true,
+        borderVisible: false,
+      },
+      rightPriceScale: {
+        visible: false,
+      },
+      timeScale: {
+        borderVisible: false,
+      },
+      grid: {
+        horzLines: {
+          visible: false,
+        },
+        vertLines: {
+          visible: false,
+        },
+      },
+    });
+
+    const series = this.chart.addAreaSeries({
+      topColor: '#7CA12B',
+      bottomColor: 'rgb(159, 197, 88, 0.01)',
+      lineColor: '#7CA12B',
+      lineWidth: 2
+    });
+
+    const dataArray = [];
+
+    for (const [time, value] of Object.entries(this.dataSum)) {
+      dataArray.push({ time, value });
+    }
+    dataArray.sort((a, b) => {
+      return new Date(a.time).getTime() - new Date(b.time).getTime();
+    });
+    series.setData(dataArray);
+
+  }
 
 }

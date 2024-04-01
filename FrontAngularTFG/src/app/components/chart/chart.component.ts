@@ -84,10 +84,10 @@ export class ChartComponent implements OnInit{
       },
       grid: {
         horzLines: {
-          color: '#eee',
+          visible: false,
         },
         vertLines: {
-          color: '#ffffff',
+          visible: false,
         },
       },
     });
