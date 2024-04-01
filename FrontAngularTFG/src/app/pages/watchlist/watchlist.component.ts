@@ -1,4 +1,4 @@
-import {Component, ElementRef, ViewChild} from '@angular/core';
+import {Component, ElementRef, OnInit, ViewChild} from '@angular/core';
 import {TypeaheadMatch, TypeaheadModule} from "ngx-bootstrap/typeahead";
 import {FormControl, FormsModule, ReactiveFormsModule} from "@angular/forms";
 import {MatFormField, MatLabel} from "@angular/material/form-field";
@@ -8,6 +8,7 @@ import {NgForOf, NgIf} from "@angular/common";
 import {MatButton} from "@angular/material/button";
 import {DataService} from "../../services/data.service";
 import {ChartComponent} from "../../components/chart/chart.component";
+import {WatchlistService} from "../../services/watchlist.service";
 
 @Component({
   selector: 'app-watchlist',
@@ -30,23 +31,52 @@ import {ChartComponent} from "../../components/chart/chart.component";
   templateUrl: './watchlist.component.html',
   styleUrl: './watchlist.component.css'
 })
-export class WatchlistComponent {
+export class WatchlistComponent implements OnInit{
   options: string[] = ['AAPL', 'AMZN', 'MSFT'];
   myControl = new FormControl('');
   filteredOptions: string[];
   inputValue: string = '';
   inputValues: string[] = [];
-  constructor() {
+  constructor(private watchlistService: WatchlistService) {
     this.filteredOptions = this.options.slice();
   }
 
   showChart: boolean = false;
   getValue() {
     if (this.myControl.value != null) {
-      this.inputValue = this.myControl.value;
-      this.inputValues.push(this.inputValue);
+      this.watchlistService.addWatchlistEntry(this.myControl.value).subscribe(_ => {
+        this.loadWatchlist();
+        this.showChart = true;
+      });
     }
 
-    this.showChart = true;
+
+  }
+
+  ngOnInit(): void {
+    this.loadWatchlist();
+  }
+
+  loadWatchlist() {
+    this.watchlistService.getWatchlistEntries().subscribe((data: any) => {
+      this.inputValues = data.map((entry: { symbol: any; }) => entry.symbol);
+      console.log(data);
+      console.log(this.inputValues);
+      if (this.inputValues.length > 0) {
+        this.showChart = true;
+      }
+    });
+  }
+
+  deleteEntry(symbol: string) {
+    this.watchlistService.deleteWatchListEntry(symbol).subscribe(_ => {
+      const index = this.inputValues.indexOf(symbol);
+      if (index !== -1) {
+        this.inputValues.splice(index, 1);
+        this.showChart = this.inputValues.length > 0;
+      } else {
+        console.error('El elemento no se encuentra en la lista');
+      }
+    });
   }
 }

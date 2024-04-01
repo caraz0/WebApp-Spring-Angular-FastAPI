@@ -41,13 +41,13 @@ export class TransactionComponent {
 
   constructor(public dialogRef: MatDialogRef<TransactionComponent>) {}
 
-  saveTransaction(ticker: string, quantity: number, price: number, picker: MatDatepicker<Date>): void {
-    const date: MatDatepickerControl<Date> = picker.datepickerInput;
-    const startDate = date.getStartValue();
+  saveTransaction(symbol: string, amount: number, price: number, picker: MatDatepicker<Date>): void {
+    const date1: MatDatepickerControl<Date> = picker.datepickerInput;
+    const startDate = date1.getStartValue();
     if (startDate) {
-      const dateValue = this.formatDate(startDate);
-      console.log(ticker, quantity, price, startDate.toDateString());
-      const transaction = { ticker, quantity, price, dateValue };
+      const date = this.formatDate(startDate);
+      console.log(symbol, amount, price, startDate.toDateString());
+      const transaction = { symbol, amount, price, date};
       this.dialogRef.close(transaction);
     } else {
       console.error('No se pudo obtener la fecha de inicio.');

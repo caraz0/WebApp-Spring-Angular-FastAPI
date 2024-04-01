@@ -23,7 +23,9 @@
       <div class="col ml10 mt10">
 
         <app-chart [ticker]="inputValue" style="display: flex; justify-content: center;"></app-chart>
-
+        <div style="text-align: center; margin-top: 10px">
+          <button mat-button color="warn"   (click)="deleteEntry(inputValue)">Eliminar</button>
+        </div>
       </div>
     </div>
   </div>

@@ -49,6 +49,7 @@ export class SignupComponent {
         console.log(data);
         this.toast.success('Registration Successful', );
         //alert('Registration Successful');
+        location.href = "/login";
       },
       error=>{
         console.log(error);
