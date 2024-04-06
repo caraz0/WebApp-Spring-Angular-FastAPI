@@ -2,14 +2,15 @@
     <div class="container">
         <div class="row" style="margin-top: 20px">
             <div class="col-md-6 offset-md-3">
-              <div class ="container text-center">
+              <mat-card style="background-color: #140F1C; border: 1px solid white; ">
+              <div class ="container text-center" style="margin-top: 30px">
                 <img ngSrc="../../../assets/add-user.png" width="90" height="90">
 
               </div>
 
-              <h1 class="text-center">Sign Up Here</h1>
+              <h1 class="text-center" style="margin-top: 15px">Sign Up Here</h1>
 
-              <form (ngSubmit) = "formSubmit()">
+              <form class="form" (ngSubmit) = "formSubmit()">
                 <mat-form-field class="full-width" appearance="outline">
                   <mat-label>Username</mat-label>
                   <input required [(ngModel)]="user.username" name="username" matInput placeholder="Write your username" >
@@ -31,8 +32,10 @@
                   <button mat-raised-button color="primary">Sign Up</button>
                 </div>
               </form>
-              <p class="text-center" style="margin-top: 15px">
+              <p class="text-center" style="margin-top: 20px; margin-bottom: 25px">
                 Already have an account? <a routerLink="/login">Login</a>
+              </p>
+              </mat-card>
             </div>
         </div>
     </div>

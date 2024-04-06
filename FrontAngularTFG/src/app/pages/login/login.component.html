@@ -4,29 +4,29 @@
       <div class="col-md-6 offset-md-3">
         <mat-card style="background-color: #140F1C; border: 1px solid white; ">
           <div class = "container text-center mt10" >
-            <img src="../../../assets/usuario.png" width="150" height="150">
+            <img src="../../../assets/usuario.png" width="125" height="125">
           </div>
 
           <h1 class="text-center">Log in</h1>
 
-          <form (ngSubmit) = "onSubmit()">
+          <form class="form" (ngSubmit) = "onSubmit()">
             <mat-form-field class="full-width" appearance="outline">
               <mat-label>Username</mat-label>
               <input [(ngModel)] = "loginForm.username" required name="username" matInput placeholder="Write your username" >
-              <mat-hint>The username must be...</mat-hint>
+
             </mat-form-field>
 
             <mat-form-field class="full-width" appearance="outline">
               <mat-label>Password</mat-label>
               <input [(ngModel)] = "loginForm.password" required name="password" type="password" matInput placeholder="Write your Password">
-              <mat-hint>Password must be...</mat-hint>
+
             </mat-form-field>
 
             <div class = "container text-center mb10">
               <button mat-raised-button color="primary">Log in</button>
             </div>
           </form>
-          <p class="text-center">Don't have an account? <a routerLink="/signup">Register</a></p>
+          <p class="text-center" style="margin-bottom: 25px">Don't have an account? <a routerLink="/signup">Register</a></p>
         </mat-card>
       </div>
     </div>

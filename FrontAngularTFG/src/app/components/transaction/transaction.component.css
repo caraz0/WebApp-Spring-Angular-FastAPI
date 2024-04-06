@@ -13,3 +13,8 @@
 .transaction-dialog-container form {
   width: 300px;
 }
+mat-button-toggle-group {
+  display:flex;
+  justify-content : center;
+  border: 0px;
+}

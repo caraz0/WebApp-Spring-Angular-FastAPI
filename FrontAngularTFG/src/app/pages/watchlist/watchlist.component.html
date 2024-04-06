@@ -21,10 +21,9 @@
   <div class="bootstrap-wrapper" *ngFor="let inputValue of inputValues">
     <div class="row " >
       <div class="col ml10 mt10">
-
         <app-chart [ticker]="inputValue" style="display: flex; justify-content: center;"></app-chart>
         <div style="text-align: center; margin-top: 10px">
-          <button mat-button color="warn"   (click)="deleteEntry(inputValue)">Eliminar</button>
+          <button mat-icon-button color="warn" (click)="deleteEntry(inputValue)"><mat-icon>delete</mat-icon></button>
         </div>
       </div>
     </div>

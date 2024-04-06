@@ -26,6 +26,7 @@ import {PortfolioService} from "../../services/portfolio.service";
 import {MatIcon} from "@angular/material/icon";
 import { createChart,CrosshairMode, ISeriesApi } from 'lightweight-charts';
 import {ChartComponent} from "../../components/chart/chart.component";
+import {TransactionsellComponent} from "../../components/transactionsell/transactionsell.component";
 
 @Component({
   selector: 'app-portfolio',
@@ -62,7 +63,7 @@ import {ChartComponent} from "../../components/chart/chart.component";
 export class PortfolioComponent implements OnInit{
 
   transactions: any[] = [];
-  displayedColumns: string[] = ['ticker', 'quantity', 'price', 'picker', 'delete'];
+  displayedColumns: string[] = ['ticker', 'quantity', 'price', 'picker', 'delete', 'sell'];
   dataSource = new MatTableDataSource<any>;
   comparedDataList: Data[][] = [];
   dataSum: Record<string, number> = {};
@@ -86,10 +87,11 @@ export class PortfolioComponent implements OnInit{
             amount: entry.amount,
             price: entry.price,
             date: entry.date,
+            operationAction: entry.operationAction
           }));
           this.dataSource.data = this.transactions;
           for (const entry of  this.transactions) {
-            await this.dataService.getComparedData(entry.symbol, entry.price, entry.amount, entry.date)
+            await this.dataService.getComparedData(entry.symbol, entry.price, entry.amount, entry.date, entry.operationAction)
               .toPromise()
               .then(data => {
 
@@ -172,6 +174,21 @@ export class PortfolioComponent implements OnInit{
     return result;
   }
 
+  openSellDialog(transaction: any): void {
+    const dialogRef = this.dialog.open(TransactionsellComponent, {
+      width: '400px',
+      data: transaction,
+    });
+
+    dialogRef.afterClosed().subscribe(result => {
+      if (result) {
+        this.portfolioService.addPortfolioEntry(result).subscribe(_ => {
+          this.loadPortfolioEntries();
+          window.location.reload()
+        });
+      }
+    });
+  }
   createChart() {
     const container = document.getElementById("chart-container");
     if (!container) {

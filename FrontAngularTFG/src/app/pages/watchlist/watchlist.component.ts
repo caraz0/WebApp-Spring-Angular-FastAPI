@@ -5,10 +5,11 @@ import {MatFormField, MatLabel} from "@angular/material/form-field";
 import {MatInput} from "@angular/material/input";
 import {MatAutocomplete, MatAutocompleteTrigger, MatOption} from "@angular/material/autocomplete";
 import {NgForOf, NgIf} from "@angular/common";
-import {MatButton} from "@angular/material/button";
+import {MatButton, MatIconButton} from "@angular/material/button";
 import {DataService} from "../../services/data.service";
 import {ChartComponent} from "../../components/chart/chart.component";
 import {WatchlistService} from "../../services/watchlist.service";
+import {MatIcon} from "@angular/material/icon";
 
 @Component({
   selector: 'app-watchlist',
@@ -26,7 +27,9 @@ import {WatchlistService} from "../../services/watchlist.service";
     MatLabel,
     MatButton,
     ChartComponent,
-    NgIf
+    NgIf,
+    MatIcon,
+    MatIconButton
   ],
   templateUrl: './watchlist.component.html',
   styleUrl: './watchlist.component.css'

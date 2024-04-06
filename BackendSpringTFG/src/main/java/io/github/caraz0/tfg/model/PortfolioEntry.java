@@ -28,6 +28,10 @@ public class PortfolioEntry {
     @Column(nullable = false)
     private String date;
 
+    @Column
+    @Enumerated(EnumType.STRING)
+    private OperationAction operationAction;
+
     @ManyToOne()
     @JoinColumn(name = "user_id")
     @JsonIgnore

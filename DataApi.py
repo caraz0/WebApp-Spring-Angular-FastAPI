@@ -19,6 +19,7 @@ app.add_middleware(
     allow_headers=["*"],
 )
 
+
 @app.get("/get_stock_data/")
 async def get_stock_data(ticker: str):
     stock = yf.Ticker(ticker)
@@ -44,8 +45,6 @@ async def say_hello(ticker: str):
     currency = data.info["currency"]
 
     return {"last_value": last_value, "currency": currency}
-
-
 
 
 ipc_data = [
@@ -93,14 +92,17 @@ async def data(ticker: str):
 
 
 @app.get("/get_compared_data/")
-async def get_compared_data(ticker: str, price: int, amount: int, purchase_date: str):
-
+async def get_compared_data(ticker: str, price: int, amount: int, purchase_date: str, operationAction:str):
     stock = yf.Ticker(ticker)
     data = stock.history(start=purchase_date)
-    data['Price_Difference'] = (data['Close'] - price) * amount
+    if operationAction == "SELL":
+        data['Price_Difference'] = (price - data['Close']) * amount
+    else:
+        data['Price_Difference'] = (data['Close'] - price) * amount
     data = data.reset_index()
     data["Date"] = data["Date"].dt.strftime("%Y-%m-%d")
-    result = [{"time": str(date), "value": price_diff} for date, price_diff in zip(data["Date"], data["Price_Difference"])]
+    result = [{"time": str(date), "value": price_diff} for date, price_diff in
+              zip(data["Date"], data["Price_Difference"])]
     print(result)
     return result
 

@@ -10,20 +10,22 @@ import {MatSnackBar} from "@angular/material/snack-bar";
 import {ToastrService} from "ngx-toastr";
 import {RouterLink} from "@angular/router";
 import {NgOptimizedImage} from "@angular/common";
+import {MatCard} from "@angular/material/card";
 
 @Component({
   selector: 'app-signup',
   standalone: true,
-  imports: [
-    MatFormField,
-    MatInput,
-    MatButton,
-    MatInputModule,
-    HttpClientModule,
-    FormsModule,
-    RouterLink,
-    NgOptimizedImage
-  ],
+    imports: [
+        MatFormField,
+        MatInput,
+        MatButton,
+        MatInputModule,
+        HttpClientModule,
+        FormsModule,
+        RouterLink,
+        NgOptimizedImage,
+        MatCard
+    ],
   templateUrl: './signup.component.html',
   styleUrl: './signup.component.css'
 })
