@@ -1,5 +1,3 @@
-from typing import List
-
 from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
 import yfinance as yf
@@ -103,18 +101,22 @@ async def get_compared_data(ticker: str, price: int, amount: int, purchase_date:
     data["Date"] = data["Date"].dt.strftime("%Y-%m-%d")
     result = [{"time": str(date), "value": price_diff} for date, price_diff in
               zip(data["Date"], data["Price_Difference"])]
+    return result
+
+
+@app.get("/get_portfolio/")
+async def get_compared_data(ticker: str, price: int, amount: int, purchase_date: str, operationAction:str):
+    stock = yf.Ticker(ticker)
+    data = stock.history(start=purchase_date)
+    if operationAction == "SELL":
+        data['Price_Difference'] = (-data['Close']) * amount
+    else:
+        data['Price_Difference'] = (data['Close']) * amount
+    data = data.reset_index()
+    data["Date"] = data["Date"].dt.strftime("%Y-%m-%d")
+    result = [{"time": str(date), "value": price_diff} for date, price_diff in
+              zip(data["Date"], data["Price_Difference"])]
     print(result)
     return result
 
 
-@app.get("/get_compared_data_all/")
-async def get_compared_data(tickers: List[str], prices: List[int], amounts: List[int], purchase_dates: List[str]):
-    total_price_difference = 0
-
-    for ticker, price, amount, purchase_date in zip(tickers, prices, amounts, purchase_dates):
-        stock = yf.Ticker(ticker)
-        data = stock.history(start=purchase_date)
-        data['Price_Difference'] = (data['Close'] - price) * amount
-        total_price_difference += sum(data['Price_Difference'])
-
-    return {"total_price_difference": total_price_difference}

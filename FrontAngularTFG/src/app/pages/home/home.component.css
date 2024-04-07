@@ -63,3 +63,7 @@ footer {
     }
   }
 }
+.col-centered{
+  float: none;
+  margin: 0 auto;
+}

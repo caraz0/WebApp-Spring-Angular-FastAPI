@@ -7,7 +7,9 @@ import {MatFormField, MatHint, MatLabel} from "@angular/material/form-field";
 import {MatInput} from "@angular/material/input";
 import {ChartComponent} from "../../components/chart/chart.component";
 import {MatIcon} from "@angular/material/icon";
-import {NgOptimizedImage} from "@angular/common";
+import {NgIf, NgOptimizedImage} from "@angular/common";
+import {RouterLink} from "@angular/router";
+import {LoginService} from "../../services/login.service";
 
 @Component({
   selector: 'app-home',
@@ -23,7 +25,9 @@ import {NgOptimizedImage} from "@angular/common";
     ReactiveFormsModule,
     ChartComponent,
     MatIcon,
-    NgOptimizedImage
+    NgOptimizedImage,
+    RouterLink,
+    NgIf
   ],
   templateUrl: './home.component.html',
   styleUrl: './home.component.css'
@@ -36,5 +40,8 @@ export class HomeComponent {
   ticker4 : string = '^STOXX50E';
   ticker5 : string = '^IXIC';
   ticker6 : string = '^N225';
+
+  constructor(public login:LoginService) {
+  }
 
 }

@@ -15,10 +15,10 @@
 
   <div class="row" style="display: flex; justify-content: space-evenly">
 
+
       <mat-card  style="margin-top: 50px;border-radius: 16px;background-color: #140F1C; border: 1px solid #434651; height: 350px; width: 550px; margin-left: 20px" >
         <mat-card-header>
-          <mat-card-title>Portfolio Performance</mat-card-title>
-
+          <mat-card-title>Portfolio Earnings</mat-card-title>
         </mat-card-header>
         <mat-card-content>
           <div id="chart-container"  style="margin-top: 20px; margin-bottom: 20px"></div>
@@ -27,14 +27,21 @@
 
       <mat-card  style="margin-top: 50px;border-radius: 16px;background-color: #140F1C; border: 1px solid #434651; height: 350px; width: 550px; margin-left: 20px" >
         <mat-card-header>
-          <mat-card-title>Portfolio Performance</mat-card-title>
-
+          <mat-card-title>Portfolio Value</mat-card-title>
         </mat-card-header>
         <mat-card-content>
-
+          <div id="chart-container2"  style="margin-top: 20px; margin-bottom: 20px"></div>
         </mat-card-content>
       </mat-card>
 
+    <mat-card  style="margin-top: 50px;border-radius: 16px;background-color: #140F1C; border: 1px solid #434651; height: 350px; width: 550px; margin-left: 20px" >
+      <mat-card-header>
+        <mat-card-title>Portfolio Sum</mat-card-title>
+      </mat-card-header>
+      <mat-card-content>
+        <div id="chart-container3"  style="margin-top: 20px; margin-bottom: 20px"></div>
+      </mat-card-content>
+    </mat-card>
   </div>
 
 
@@ -43,6 +50,11 @@
     <ng-container matColumnDef="ticker">
       <th mat-header-cell *matHeaderCellDef>Symbol</th>
       <td mat-cell *matCellDef="let transaction">{{ transaction.symbol }}</td>
+    </ng-container>
+
+    <ng-container matColumnDef="operation">
+      <th mat-header-cell *matHeaderCellDef>Action</th>
+      <td mat-cell *matCellDef="let transaction">{{ transaction.operationAction }}</td>
     </ng-container>
 
     <ng-container matColumnDef="quantity">
@@ -60,6 +72,16 @@
       <td mat-cell *matCellDef="let transaction">{{ transaction.date }}</td>
     </ng-container>
 
+    <ng-container matColumnDef="ChangeValue">
+      <th mat-header-cell *matHeaderCellDef>Change Value</th>
+      <td mat-cell *matCellDef="let transaction">{{ transaction.dollarValue }}</td>
+    </ng-container>
+
+    <ng-container matColumnDef="PercentChange">
+      <th mat-header-cell *matHeaderCellDef>Percent Change</th>
+      <td mat-cell *matCellDef="let transaction">{{ transaction.percentChange }}</td>
+    </ng-container>
+
     <ng-container matColumnDef="delete">
       <th mat-header-cell *matHeaderCellDef>Delete</th>
       <td mat-cell *matCellDef="let transaction">
@@ -69,14 +91,6 @@
       </td>
     </ng-container>
 
-    <ng-container matColumnDef="sell">
-      <th mat-header-cell *matHeaderCellDef>Sell</th>
-      <td mat-cell *matCellDef="let transaction">
-        <button mat-icon-button (click)="openSellDialog(transaction)">
-          <mat-icon>keyboard_double_arrow_down</mat-icon>
-        </button>
-      </td>
-    </ng-container>
     <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
     <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
   </table>

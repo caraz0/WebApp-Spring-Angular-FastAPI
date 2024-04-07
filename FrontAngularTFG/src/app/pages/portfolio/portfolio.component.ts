@@ -26,7 +26,13 @@ import {PortfolioService} from "../../services/portfolio.service";
 import {MatIcon} from "@angular/material/icon";
 import { createChart,CrosshairMode, ISeriesApi } from 'lightweight-charts';
 import {ChartComponent} from "../../components/chart/chart.component";
-import {TransactionsellComponent} from "../../components/transactionsell/transactionsell.component";
+import {MatTab, MatTabGroup} from "@angular/material/tabs";
+import {
+  MatExpansionPanel,
+  MatExpansionPanelDescription,
+  MatExpansionPanelHeader,
+  MatExpansionPanelTitle
+} from "@angular/material/expansion";
 
 @Component({
   selector: 'app-portfolio',
@@ -54,7 +60,13 @@ import {TransactionsellComponent} from "../../components/transactionsell/transac
     MatIconAnchor,
     NgIf,
     MatIconButton,
-    ChartComponent
+    ChartComponent,
+    MatTabGroup,
+    MatTab,
+    MatExpansionPanel,
+    MatExpansionPanelTitle,
+    MatExpansionPanelDescription,
+    MatExpansionPanelHeader
   ],
   templateUrl: './portfolio.component.html',
   styleUrl: './portfolio.component.css'
@@ -63,12 +75,17 @@ import {TransactionsellComponent} from "../../components/transactionsell/transac
 export class PortfolioComponent implements OnInit{
 
   transactions: any[] = [];
-  displayedColumns: string[] = ['ticker', 'quantity', 'price', 'picker', 'delete', 'sell'];
+  displayedColumns: string[] = ['ticker', 'operation' ,'quantity', 'price', 'picker','ChangeValue','PercentChange' ,'delete'];
   dataSource = new MatTableDataSource<any>;
   comparedDataList: Data[][] = [];
+  comparedDataList2: Data[][] = [];
   dataSum: Record<string, number> = {};
+  dataSum2: Record<string, number> = {};
+  dataSum3: Record<string, number> = {};
+
   private chart: any;
   showChart: boolean = false;
+
   constructor(public dialog: MatDialog, private dataService: DataService,
               private portfolioService: PortfolioService){
   }
@@ -106,13 +123,40 @@ export class PortfolioComponent implements OnInit{
               .catch(error => {
                 console.error('Error al obtener datos del servicio para', entry.symbol, ':', error);
               });
+            await this.dataService.getPortfolio(entry.symbol, entry.price, entry.amount, entry.date, entry.operationAction)
+              .toPromise()
+              .then(data => {
+                if (data) {
+                  const comparedData2 = data as Data[];
+                  this.comparedDataList2.push(comparedData2);
+                } else {
+                  console.error('Datos no disponibles para', entry.symbol);
+                }
+              })
+              .catch(error => {
+                console.error('Error al obtener datos del servicio para', entry.symbol, ':', error);
+              });
           }
           this.dataSum = this.sumValuesForMatchingDates(...this.comparedDataList);
-          console.log('Datos comparados sumados',  ':', this.dataSum);
-
+          this.dataSum2 = this.sumValuesForMatchingDates(...this.comparedDataList2);
+          this.dataSum3 = this.sumValuesForMatchingDates(...this.comparedDataList, ...this.comparedDataList2);
           this.showChart = true;
 
+          for (const entry of this.transactions.filter(entry => entry.operationAction === 'BUY')) {
+            const buyIndex = this.transactions.indexOf(entry);
+            const comparedData = this.comparedDataList[buyIndex];
+
+            const initialValue = comparedData[0].value;
+            const finalValue = comparedData[comparedData.length - 1].value;
+
+
+            entry.dollarValue = (finalValue - initialValue).toFixed(2);
+            entry.percentChange = (((finalValue - initialValue) / initialValue) * 100).toFixed(2) + '%';
+          }
+
           this.createChart();
+          this.createChart2();
+          this.createChart3();
 
         } else {
           console.error('Datos recibidos no son un array:', data);
@@ -122,6 +166,9 @@ export class PortfolioComponent implements OnInit{
   openTransactionDialog(): void {
     const dialogRef = this.dialog.open(TransactionComponent, {
       width: '400px',
+      data: {
+        transactions: this.transactions
+      }
     });
 
     dialogRef.afterClosed().subscribe(result => {
@@ -174,21 +221,7 @@ export class PortfolioComponent implements OnInit{
     return result;
   }
 
-  openSellDialog(transaction: any): void {
-    const dialogRef = this.dialog.open(TransactionsellComponent, {
-      width: '400px',
-      data: transaction,
-    });
 
-    dialogRef.afterClosed().subscribe(result => {
-      if (result) {
-        this.portfolioService.addPortfolioEntry(result).subscribe(_ => {
-          this.loadPortfolioEntries();
-          window.location.reload()
-        });
-      }
-    });
-  }
   createChart() {
     const container = document.getElementById("chart-container");
     if (!container) {
@@ -235,6 +268,116 @@ export class PortfolioComponent implements OnInit{
     const dataArray = [];
 
     for (const [time, value] of Object.entries(this.dataSum)) {
+      dataArray.push({ time, value });
+    }
+    dataArray.sort((a, b) => {
+      return new Date(a.time).getTime() - new Date(b.time).getTime();
+    });
+    series.setData(dataArray);
+
+  }
+
+  createChart2() {
+    const container = document.getElementById("chart-container2");
+    if (!container) {
+      return;
+    }
+    this.chart = createChart(container, {
+      width: 500,
+      height: 250,
+      layout: {
+        background: {color: '#140F1C'},
+        textColor: 'white',
+      },
+      leftPriceScale: {
+        scaleMargins: {
+          top: 0.3,
+          bottom: 0.25,
+        },
+        visible: true,
+        borderVisible: false,
+      },
+      rightPriceScale: {
+        visible: false,
+      },
+      timeScale: {
+        borderVisible: false,
+      },
+      grid: {
+        horzLines: {
+          visible: false,
+        },
+        vertLines: {
+          visible: false,
+        },
+      },
+    });
+
+    const series = this.chart.addAreaSeries({
+      topColor: '#7CA12B',
+      bottomColor: 'rgb(159, 197, 88, 0.01)',
+      lineColor: '#7CA12B',
+      lineWidth: 2
+    });
+
+    const dataArray = [];
+
+    for (const [time, value] of Object.entries(this.dataSum2)) {
+      dataArray.push({ time, value });
+    }
+    dataArray.sort((a, b) => {
+      return new Date(a.time).getTime() - new Date(b.time).getTime();
+    });
+    series.setData(dataArray);
+
+  }
+
+  createChart3() {
+    const container = document.getElementById("chart-container3");
+    if (!container) {
+      return;
+    }
+    this.chart = createChart(container, {
+      width: 500,
+      height: 250,
+      layout: {
+        background: {color: '#140F1C'},
+        textColor: 'white',
+      },
+      leftPriceScale: {
+        scaleMargins: {
+          top: 0.3,
+          bottom: 0.25,
+        },
+        visible: true,
+        borderVisible: false,
+      },
+      rightPriceScale: {
+        visible: false,
+      },
+      timeScale: {
+        borderVisible: false,
+      },
+      grid: {
+        horzLines: {
+          visible: false,
+        },
+        vertLines: {
+          visible: false,
+        },
+      },
+    });
+
+    const series = this.chart.addAreaSeries({
+      topColor: '#7CA12B',
+      bottomColor: 'rgb(159, 197, 88, 0.01)',
+      lineColor: '#7CA12B',
+      lineWidth: 2
+    });
+
+    const dataArray = [];
+
+    for (const [time, value] of Object.entries(this.dataSum3)) {
       dataArray.push({ time, value });
     }
     dataArray.sort((a, b) => {

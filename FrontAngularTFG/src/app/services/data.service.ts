@@ -30,4 +30,7 @@ export class DataService {
   getComparedData(ticker: string, price: number, amount: number, date: string, operationAction: string) {
     return this.http.get(`http://localhost:8000/get_compared_data/?ticker=${ticker}&price=${price}&amount=${amount}&purchase_date=${date}&operationAction=${operationAction}`);
   }
+  getPortfolio(ticker: string, price: number, amount: number, date: string, operationAction: string) {
+    return this.http.get(`http://localhost:8000/get_portfolio/?ticker=${ticker}&price=${price}&amount=${amount}&purchase_date=${date}&operationAction=${operationAction}`);
+  }
 }
