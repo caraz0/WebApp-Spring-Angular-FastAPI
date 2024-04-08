@@ -16,8 +16,17 @@ import {CharttemplateComponent} from "../../components/charttemplate/charttempla
 export class MacrodataComponent {
 
   ticker : string = 'IPCESP';
-  ticker2 : string = '^GSPC';
-
-
-
+  ticker1 : string = 'GDPESP';
+  ticker2 : string = 'GDPGER';
+  ticker3 : string = 'CPIGER';
+  ticker4 : string = 'GDP';
+  ticker5 : string = 'CPIAUCNS';
+  ticker6 : string = 'UNRATE';
+  ticker7 : string = 'FEDFUNDS';
+  ticker8 : string = 'FPCPITOTLZGUSA';
+  ticker9 : string = 'HSN1F';
+  ticker10 : string = 'INDPRO';
+  ticker11 : string = 'PAYEMS';
+  ticker12 : string = 'PCE';
+  ticker13 : string = 'PCEPI';
 }

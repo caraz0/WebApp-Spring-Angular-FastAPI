@@ -1,6 +1,11 @@
+import numpy as np
+import pandas as pd
 from fastapi import FastAPI
+import eurostat
 from fastapi.middleware.cors import CORSMiddleware
 import yfinance as yf
+from fredapi import Fred
+import world_bank_data as wb
 
 app = FastAPI()
 
@@ -17,6 +22,7 @@ app.add_middleware(
     allow_headers=["*"],
 )
 
+fred = Fred(api_key='b4da5c4b67d7310f6de6fcf85266c420')
 
 @app.get("/get_stock_data/")
 async def get_stock_data(ticker: str):
@@ -82,11 +88,34 @@ ipc_data = [
 @app.get("/get_macro_data/")
 async def data(ticker: str):
     if ticker == "IPCESP":
+        ipc_data = wb.get_series("FP.CPI.TOTL", id_or_value='id', simplify_index=True, country='ES')
+        formatted_data3 = [{'time': f'{year}-09-15', 'value': value} for year, value in ipc_data.items() if
+                           not np.isnan(value)]
+        return formatted_data3
         return ipc_data
-    elif ticker == "IPCEEUU":
-        return "El string no es igual a 'palabra'"
+    elif ticker == "CPIGER":
+        ipc_data = wb.get_series("FP.CPI.TOTL", id_or_value='id', simplify_index=True, country='DE')
+        formatted_data2 = [{'time': f'{year}-09-15', 'value': value} for year, value in ipc_data.items() if
+                         not np.isnan(value)]
+        return formatted_data2
+    elif ticker == "GDPGER":
+        gdp_data = wb.get_series("NY.GDP.MKTP.CD", id_or_value='id', simplify_index=True, country='DE')
+        formatted_data3 = [{'time': f'{year}-09-15', 'value': value} for year, value in gdp_data.items() if
+                         not np.isnan(value)]
+        return formatted_data3
+    elif ticker == "GDPESP":
+        gdp_data = wb.get_series("NY.GDP.MKTP.CD", id_or_value='id', simplify_index=True, country='ES')
+        formatted_data3 = [{'time': f'{year}-09-15', 'value': value} for year, value in gdp_data.items() if
+                         not np.isnan(value)]
+        return formatted_data3
     else:
-        return
+        data = fred.get_series(ticker)
+
+        formatted_data = [{'time': str(date.date()), 'value': value} for date, value in data.items() if
+                          not np.isnan(value)]
+
+        response_data = formatted_data
+        return response_data
 
 
 @app.get("/get_compared_data/")
@@ -118,5 +147,25 @@ async def get_compared_data(ticker: str, price: int, amount: int, purchase_date:
               zip(data["Date"], data["Price_Difference"])]
     print(result)
     return result
+
+
+def get_close_price(symbol):
+
+    stock_data = yf.Ticker(symbol)
+    latest_data = stock_data.history(period="1d")
+    close_price = latest_data['Close'].iloc[-1]
+    return close_price
+
+
+@app.get("/get_price_change/")
+async def get_price_change(symbol: str, purchase_price: float):
+
+    latest_close_price = get_close_price(symbol)
+    price_difference = latest_close_price - purchase_price
+    percentage_change = (price_difference / purchase_price) * 100
+    return {
+        "difference": price_difference,
+        "percentage_change": percentage_change
+    }
 
 

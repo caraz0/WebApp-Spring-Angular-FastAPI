@@ -9,56 +9,69 @@ import {StockComponent} from "./pages/stock/stock.component";
 import {PortfolioComponent} from "./pages/portfolio/portfolio.component";
 import {CommoditiesComponent} from "./pages/commodities/commodities.component";
 import {WatchlistComponent} from "./pages/watchlist/watchlist.component";
+import {AuthGuardService} from "./services/auth-guard.service";
 
 export const routes: Routes = [
   {
     path:'',
     component: HomeComponent,
+    title: 'Financify',
     pathMatch: 'full'
   },
   {
     path:'signup',
     component: SignupComponent,
+    title: 'Financify - Sign Up',
     pathMatch: 'full'
   },
   {
     path:'login',
     component: LoginComponent,
+    title: 'Financify - Login',
     pathMatch: 'full'
   },
   {
     path:'macro',
     component: MacrodataComponent,
+    title: 'Financify - Macrodata',
     pathMatch: 'full'
   },
   {
     path:'index',
     component: IndexComponent,
+    title: 'Financify - Index',
     pathMatch: 'full'
   },
   {
     path:'forex',
     component: ForexComponent,
+    title: 'Financify - Forex',
     pathMatch: 'full'
   },
   {
     path:'stock',
     component: StockComponent,
+    title: 'Financify - Stocks',
     pathMatch: 'full'
   },
   {
     path:'commodities',
     component: CommoditiesComponent,
+    title: 'Financify - Commodities',
     pathMatch: 'full'
   },
   {
     path:'watchlist',
     component: WatchlistComponent,
-    pathMatch: 'full'
+    title: 'Financify - Watchlist',
+    pathMatch: 'full',
+    canActivate: [AuthGuardService]
   },
   {
     path:'portfolio',
     component: PortfolioComponent,
-    pathMatch: 'full'
+    title: 'Financify - Portfolio',
+    pathMatch: 'full',
+    canActivate: [AuthGuardService]
   }
 ];

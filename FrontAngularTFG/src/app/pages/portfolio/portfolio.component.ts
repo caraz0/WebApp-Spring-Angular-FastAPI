@@ -20,7 +20,7 @@ import {
   MatHeaderRowDef, MatRow, MatRowDef,
   MatTable, MatTableDataSource
 } from "@angular/material/table";
-import {DatePipe, NgIf} from "@angular/common";
+import {DatePipe, NgClass, NgIf} from "@angular/common";
 import {DataService} from "../../services/data.service";
 import {PortfolioService} from "../../services/portfolio.service";
 import {MatIcon} from "@angular/material/icon";
@@ -66,7 +66,8 @@ import {
     MatExpansionPanel,
     MatExpansionPanelTitle,
     MatExpansionPanelDescription,
-    MatExpansionPanelHeader
+    MatExpansionPanelHeader,
+    NgClass
   ],
   templateUrl: './portfolio.component.html',
   styleUrl: './portfolio.component.css'
@@ -143,15 +144,15 @@ export class PortfolioComponent implements OnInit{
           this.showChart = true;
 
           for (const entry of this.transactions.filter(entry => entry.operationAction === 'BUY')) {
-            const buyIndex = this.transactions.indexOf(entry);
-            const comparedData = this.comparedDataList[buyIndex];
-
-            const initialValue = comparedData[0].value;
-            const finalValue = comparedData[comparedData.length - 1].value;
-
-
-            entry.dollarValue = (finalValue - initialValue).toFixed(2);
-            entry.percentChange = (((finalValue - initialValue) / initialValue) * 100).toFixed(2) + '%';
+            this.dataService.getPriceChange(entry.symbol, entry.price).subscribe(
+              (data: any) => {
+                entry.dollarValue = data.difference.toFixed(2);
+                entry.percentChange = data.percentage_change.toFixed(2) + '%';
+              },
+              (error: any) => {
+                console.error('Error retrieving price change:', error);
+              }
+            );
           }
 
           this.createChart();

@@ -11,6 +11,7 @@ import {MatToolbarModule} from "@angular/material/toolbar";
 import {MatIconModule} from "@angular/material/icon";
 import {MatDialog, MatDialogModule} from "@angular/material/dialog";
 import {TypeaheadModule} from "ngx-bootstrap/typeahead";
+import {FormsModule} from "@angular/forms";
 
 
 
@@ -19,7 +20,7 @@ import {TypeaheadModule} from "ngx-bootstrap/typeahead";
   standalone: true,
   imports: [RouterOutlet, NavbarComponent, SignupComponent, HttpClientModule,
     MatSnackBarModule, MatCardModule, MatToolbarModule, MatIconModule,
-  MatDialogModule, MatButtonModule, TypeaheadModule],
+  MatDialogModule, MatButtonModule, TypeaheadModule, FormsModule],
   templateUrl: './app.component.html',
   styleUrl: './app.component.css'
 })

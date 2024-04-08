@@ -33,4 +33,7 @@ export class DataService {
   getPortfolio(ticker: string, price: number, amount: number, date: string, operationAction: string) {
     return this.http.get(`http://localhost:8000/get_portfolio/?ticker=${ticker}&price=${price}&amount=${amount}&purchase_date=${date}&operationAction=${operationAction}`);
   }
+  getPriceChange(ticker: string,purchase_price: number) {
+    return this.http.get(`http://localhost:8000/get_price_change/?symbol=${ticker}&purchase_price=${purchase_price}`);
+  }
 }

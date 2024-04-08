@@ -68,7 +68,6 @@ export class TransactionComponent {
       );
       const totalBuyAmount = buyTransactions.reduce((acc: number, transaction: any) => acc + transaction.amount, 0);
 
-
       const sellTransactions = this.data.transactions.filter((transaction: any) =>
         transaction.symbol === symbol && transaction.operationAction === OperationAction.SELL
       );
@@ -77,12 +76,15 @@ export class TransactionComponent {
       const availableAmount = totalBuyAmount - totalSellAmount;
       console.log('availableAmount', availableAmount);
 
-      if (this.selectedState === OperationAction.SELL && amount <= availableAmount) {
-        const transaction = { symbol, amount, price, date, operationAction: this.selectedState};
+      if (this.selectedState === OperationAction.BUY) {
+        const transaction = { symbol, amount, price, date, operationAction: this.selectedState };
+        this.dialogRef.close(transaction);
+      } else if (this.selectedState === OperationAction.SELL && amount <= availableAmount) {
+        const transaction = { symbol, amount, price, date, operationAction: this.selectedState };
         this.dialogRef.close(transaction);
       } else {
-        console.error('No se puede vender la cantidad especificada.');
-        this.toast.error('You cannot sell the specified amount.');
+        console.error('No se puede realizar la transacción con la cantidad especificada.');
+        this.toast.error('You cannot perform the transaction with the specified amount.');
       }
     } else {
       console.error('No se pudo obtener la fecha de inicio.');

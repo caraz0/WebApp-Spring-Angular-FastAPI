@@ -6,3 +6,10 @@ table{
   margin-top: 30px;
   background: #140f1c;
 }
+.positive-change {
+  color: green;
+}
+
+.negative-change {
+  color: red;
+}
