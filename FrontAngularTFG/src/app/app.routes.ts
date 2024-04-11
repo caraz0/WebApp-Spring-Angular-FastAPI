@@ -10,6 +10,7 @@ import {PortfolioComponent} from "./pages/portfolio/portfolio.component";
 import {CommoditiesComponent} from "./pages/commodities/commodities.component";
 import {WatchlistComponent} from "./pages/watchlist/watchlist.component";
 import {AuthGuardService} from "./services/auth-guard.service";
+import {CompareComponent} from "./pages/compare/compare.component";
 
 export const routes: Routes = [
   {
@@ -71,6 +72,13 @@ export const routes: Routes = [
     path:'portfolio',
     component: PortfolioComponent,
     title: 'Financify - Portfolio',
+    pathMatch: 'full',
+    canActivate: [AuthGuardService]
+  },
+  {
+    path:'compare',
+    component: CompareComponent,
+    title: 'Financify - Compare',
     pathMatch: 'full',
     canActivate: [AuthGuardService]
   }

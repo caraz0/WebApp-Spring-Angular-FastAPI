@@ -1,0 +1,40 @@
+.dialog{
+  width: 100%;
+  height: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background-color: rgba(0, 0, 0, 0.5);
+  position: fixed;
+  top: 0;
+  left: 0;
+  z-index: 1000;
+}
+mat-card-header{
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  text-align: center;
+}
+mat-card-content{
+  margin-top: 20px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  text-align: center;
+}
+mat-card-actions{
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  text-align: center;
+}
+.horizontal-list {
+  display: flex;
+  justify-content: space-evenly;
+
+}
+
+.horizontal-list mat-list-item {
+  margin-right: 10px;
+}

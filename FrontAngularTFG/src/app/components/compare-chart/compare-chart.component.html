@@ -1,0 +1,32 @@
+<div class="dialog" >
+
+  <mat-card  style="border-radius: 16px;background-color: #140F1C; border: 1px solid #434651; margin-left: 20px" >
+    <mat-card-header>
+      <mat-card-title>
+        <ng-container *ngFor="let ticker of tickers; let i = index">
+          <span *ngIf="i !== 0"> | </span>
+          <span [style.color]="colors[i]">{{ ticker.valor }}</span>
+        </ng-container>
+      </mat-card-title>
+      <mat-card-subtitle ></mat-card-subtitle>
+    </mat-card-header>
+    <mat-card-content>
+      <div id="chart-container"  style="margin-top: 20px; margin-bottom: 20px"></div>
+
+    </mat-card-content>
+    <div class="row">
+    <mat-list class="horizontal-list">
+      <mat-list-item *ngFor="let item of correlationData">
+        <p>{{ item.key }}: {{ item.value }}</p>
+      </mat-list-item>
+    </mat-list>
+    </div>
+    <mat-card-actions>
+      <mat-dialog-actions>
+        <button mat-button mat-dialog-close>Close</button>
+      </mat-dialog-actions>
+    </mat-card-actions>
+  </mat-card>
+
+</div>
+

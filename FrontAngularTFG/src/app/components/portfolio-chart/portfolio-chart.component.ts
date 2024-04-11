@@ -1,22 +1,43 @@
-import {Component, Input, OnInit} from '@angular/core';
+import {Component, Inject, Input, OnInit} from '@angular/core';
+import {
+  MatCard,
+  MatCardActions,
+  MatCardContent,
+  MatCardHeader,
+  MatCardSubtitle,
+  MatCardTitle
+} from "@angular/material/card";
 import {DataService} from "../../services/data.service";
 import { createChart,CrosshairMode, ISeriesApi } from 'lightweight-charts';
-import {MatCard, MatCardContent, MatCardHeader, MatCardSubtitle, MatCardTitle} from "@angular/material/card";
+import {
+  MAT_DIALOG_DATA,
+  MatDialogActions,
+  MatDialogClose,
+  MatDialogRef,
+  MatDialogTitle
+} from "@angular/material/dialog";
+import {MatButton} from "@angular/material/button";
 
 @Component({
-  selector: 'app-chart',
+  selector: 'app-portfolio-chart',
   standalone: true,
   imports: [
     MatCard,
     MatCardContent,
     MatCardHeader,
+    MatCardSubtitle,
     MatCardTitle,
-    MatCardSubtitle
+    MatDialogActions,
+    MatDialogClose,
+    MatButton,
+    MatDialogTitle,
+    MatCardActions
   ],
-  templateUrl: './chart.component.html',
-  styleUrl: './chart.component.css'
+  templateUrl: './portfolio-chart.component.html',
+  styleUrl: './portfolio-chart.component.css'
 })
-export class ChartComponent implements OnInit{
+export class PortfolioChartComponent implements OnInit{
+
   private chart: any;
   private candlestickSeries: any;
   protected ticker2: string = '';
@@ -26,9 +47,12 @@ export class ChartComponent implements OnInit{
   currency: string = '';
 
   stockData: Object | undefined = [];
+  ticker: string = this.data.symbol;
 
-  @Input() ticker: string = '';
-  constructor(private stockService: DataService) { }
+  constructor(private stockService: DataService, @Inject(MAT_DIALOG_DATA) public data: any, public dialogRef: MatDialogRef<PortfolioChartComponent>) {
+    this.ticker = data.symbol;
+
+  }
   async ngOnInit() {
     await this.loadStockData();
     this.createChart();
@@ -54,7 +78,6 @@ export class ChartComponent implements OnInit{
 
   createChart() {
 
-
     const container = document.getElementById("chart-container" + this.ticker);
 
     if (!container) {
@@ -65,7 +88,7 @@ export class ChartComponent implements OnInit{
       width: 700,
       height: 350,
       layout: {
-        background: {color: '#1A1526'},
+        background: {color: '#140F1C'},
         textColor: 'white',
       },
       leftPriceScale: {
@@ -92,14 +115,13 @@ export class ChartComponent implements OnInit{
       },
     });
     const series = this.chart.addAreaSeries({
-      topColor: '#3B8FD9',
-      bottomColor: 'rgb(59, 143, 217, 0.01)',
-      lineColor: '#3B8FD9',
+      topColor: '#7CA12B',
+      bottomColor: 'rgb(159, 197, 88, 0.01)',
+      lineColor: '#7CA12B',
       lineWidth: 2
     });
     //this.candlestickSeries = this.chart.addAreaSeries();
     series.setData(this.stockData);
 
   }
-
 }

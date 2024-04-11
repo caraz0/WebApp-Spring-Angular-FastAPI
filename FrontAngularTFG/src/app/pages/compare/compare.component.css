@@ -1,0 +1,34 @@
+.card {
+  width: 80%;
+  max-width: 600px;
+  margin: auto;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+}
+
+.card-content {
+
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+  grid-gap: 10px;
+}
+
+.input-field {
+  margin-bottom: 10px;
+}
+.input-row{
+  margin-top: 20px;
+}
+.delete-button {
+  align-self: flex-end;
+}
+
+.delete-button.ng-hide {
+  display: none; /* Oculta el botón de eliminar cuando no hay suficientes inputs */
+}
+mat-card-header {
+  display: flex;
+  justify-content: center;
+}

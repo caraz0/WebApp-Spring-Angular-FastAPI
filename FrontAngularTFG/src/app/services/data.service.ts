@@ -36,4 +36,7 @@ export class DataService {
   getPriceChange(ticker: string,purchase_price: number) {
     return this.http.get(`http://localhost:8000/get_price_change/?symbol=${ticker}&purchase_price=${purchase_price}`);
   }
+  getCorrelation(requestBody: any) {
+    return this.http.post(`http://localhost:8000/get_correlation/`, requestBody);
+  }
 }

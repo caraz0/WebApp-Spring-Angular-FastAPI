@@ -1,11 +1,14 @@
 import numpy as np
 import pandas as pd
-from fastapi import FastAPI
-import eurostat
+from fastapi import FastAPI, HTTPException, Request
 from fastapi.middleware.cors import CORSMiddleware
 import yfinance as yf
 from fredapi import Fred
 import world_bank_data as wb
+from itertools import combinations
+from typing import List
+import json
+
 
 app = FastAPI()
 
@@ -23,6 +26,32 @@ app.add_middleware(
 )
 
 fred = Fred(api_key='b4da5c4b67d7310f6de6fcf85266c420')
+
+# def calcular_correlacion(tickers):
+#     for ticker1, ticker2 in combinations(tickers, 2):
+#         stock1 = yf.Ticker(ticker1)
+#         data1 = stock1.history(period="5y")
+#         data1 = data1.reset_index()
+#         data1["Date"] = data1["Date"].dt.strftime("%Y-%m-%d")
+#         result1 = [{"time": str(date), "value": close} for date, close in zip(data1["Date"], data1["Close"])]
+#
+#         stock2 = yf.Ticker(ticker2)
+#         data2 = stock2.history(period="5y")
+#         data2 = data2.reset_index()
+#         data2["Date"] = data2["Date"].dt.strftime("%Y-%m-%d")
+#         result2 = [{"time": str(date), "value": close} for date, close in zip(data2["Date"], data2["Close"])]
+#
+#         df1 = pd.DataFrame(result1)
+#         df2 = pd.DataFrame(result2)
+#
+#         merged_df = pd.merge(df1, df2, on='time')
+#
+#         correlation = merged_df['value_x'].corr(merged_df['value_y'])
+#
+#         print(f"Correlación entre {ticker1} y {ticker2}: {correlation}")
+#
+# tickers = ["AAPL", "^GSPC", "MSFT", "GOOGL"]
+# calcular_correlacion(tickers)
 
 @app.get("/get_stock_data/")
 async def get_stock_data(ticker: str):
@@ -49,40 +78,6 @@ async def say_hello(ticker: str):
     currency = data.info["currency"]
 
     return {"last_value": last_value, "currency": currency}
-
-
-ipc_data = [
-    {'time': '2021-09-15', 'value': 4},
-    {'time': '2021-10-15', 'value': 5.4},
-    {'time': '2021-11-15', 'value': 5.5},
-    {'time': '2021-12-15', 'value': 6.5},
-    {'time': '2022-01-15', 'value': 6.1},
-    {'time': '2022-02-15', 'value': 7.6},
-    {'time': '2022-03-15', 'value': 9.8},
-    {'time': '2022-04-15', 'value': 8.3},
-    {'time': '2022-05-15', 'value': 8.7},
-    {'time': '2022-06-15', 'value': 10.2},
-    {'time': '2022-07-15', 'value': 10.8},
-    {'time': '2022-08-15', 'value': 10.5},
-    {'time': '2022-09-15', 'value': 8.9},
-    {'time': '2022-10-15', 'value': 7.3},
-    {'time': '2022-11-15', 'value': 6.8},
-    {'time': '2022-12-15', 'value': 5.7},
-    {'time': '2023-01-15', 'value': 5.9},
-    {'time': '2023-02-15', 'value': 6},
-    {'time': '2023-03-15', 'value': 3.3},
-    {'time': '2023-04-15', 'value': 4.1},
-    {'time': '2023-05-15', 'value': 3.2},
-    {'time': '2023-06-15', 'value': 1.9},
-    {'time': '2023-07-15', 'value': 2.3},
-    {'time': '2023-08-15', 'value': 2.6},
-    {'time': '2023-09-15', 'value': 3.5},
-    {'time': '2023-10-15', 'value': 3.5},
-    {'time': '2023-11-15', 'value': 3.2},
-    {'time': '2023-12-15', 'value': 3.1},
-    {'time': '2024-01-15', 'value': 3.4},
-    {'time': '2024-02-15', 'value': 2.8}
-]
 
 
 @app.get("/get_macro_data/")
@@ -169,3 +164,49 @@ async def get_price_change(symbol: str, purchase_price: float):
     }
 
 
+def calcular_correlacion(tickers: List[str]):
+    correlations = {}
+    for ticker1, ticker2 in combinations(tickers, 2):
+        stock1 = yf.Ticker(ticker1)
+        stock2 = yf.Ticker(ticker2)
+
+        try:
+            data1 = stock1.history(period="5y")
+            data2 = stock2.history(period="5y")
+        except Exception as e:
+            raise HTTPException(status_code=404, detail=f"Error al obtener datos para {ticker1} o {ticker2}: {str(e)}")
+
+        data1 = data1.reset_index()
+        data1["Date"] = data1["Date"].dt.strftime("%Y-%m-%d")
+        result1 = [{"time": str(date), "value": close} for date, close in zip(data1["Date"], data1["Close"])]
+
+        data2 = data2.reset_index()
+        data2["Date"] = data2["Date"].dt.strftime("%Y-%m-%d")
+        result2 = [{"time": str(date), "value": close} for date, close in zip(data2["Date"], data2["Close"])]
+
+        df1 = pd.DataFrame(result1)
+        df2 = pd.DataFrame(result2)
+
+        merged_df = pd.merge(df1, df2, on='time')
+
+        correlation = merged_df['value_x'].corr(merged_df['value_y'])
+
+        # Convertir las tuplas a cadenas para usarlas como claves
+        key = f"{ticker1}-{ticker2}"
+        correlations[key] = round(correlation, 3)
+
+    return correlations
+
+
+@app.post("/get_correlation/")
+async def calculate_correlation(request: Request):
+    data = await request.json()
+    tickers = data.get("tickers")
+    if not tickers or not isinstance(tickers, list):
+        raise HTTPException(status_code=400, detail="Se esperaba una lista de tickers en el formato JSON.")
+
+    try:
+        correlations = calcular_correlacion(tickers)
+        return correlations
+    except Exception as e:
+        raise HTTPException(status_code=500, detail=f"Error interno al calcular la correlación: {str(e)}")

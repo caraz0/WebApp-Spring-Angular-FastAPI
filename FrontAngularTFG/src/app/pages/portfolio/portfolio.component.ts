@@ -33,6 +33,7 @@ import {
   MatExpansionPanelHeader,
   MatExpansionPanelTitle
 } from "@angular/material/expansion";
+import {PortfolioChartComponent} from "../../components/portfolio-chart/portfolio-chart.component";
 
 @Component({
   selector: 'app-portfolio',
@@ -76,7 +77,7 @@ import {
 export class PortfolioComponent implements OnInit{
 
   transactions: any[] = [];
-  displayedColumns: string[] = ['ticker', 'operation' ,'quantity', 'price', 'picker','ChangeValue','PercentChange' ,'delete'];
+  displayedColumns: string[] = ['ticker', 'operation' ,'quantity', 'price', 'picker','ChangeValue','PercentChange', 'chart','delete'];
   dataSource = new MatTableDataSource<any>;
   comparedDataList: Data[][] = [];
   comparedDataList2: Data[][] = [];
@@ -223,6 +224,14 @@ export class PortfolioComponent implements OnInit{
   }
 
 
+  openChart(symbol: string){
+    const dialogRef = this.dialog.open(PortfolioChartComponent, {
+      width: '1000px',
+      data: {
+        symbol: symbol
+      }
+    });
+  }
   createChart() {
     const container = document.getElementById("chart-container");
     if (!container) {
@@ -370,9 +379,9 @@ export class PortfolioComponent implements OnInit{
     });
 
     const series = this.chart.addAreaSeries({
-      topColor: '#7CA12B',
-      bottomColor: 'rgb(159, 197, 88, 0.01)',
-      lineColor: '#7CA12B',
+      topColor: '#F2506E',
+      bottomColor: 'rgb(242, 80, 110, 0.01)',
+      lineColor: '#F2506E',
       lineWidth: 2
     });
 

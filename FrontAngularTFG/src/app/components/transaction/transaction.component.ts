@@ -13,10 +13,11 @@ import {
 } from "@angular/material/datepicker";
 import {NativeDateAdapter, provideNativeDateAdapter} from "@angular/material/core";
 
-import {OperationAction} from "./OperationAction";
+import {OperationAction, symbols} from "./OperationAction";
 import {MatButtonToggle, MatButtonToggleGroup} from "@angular/material/button-toggle";
 import {MatIcon} from "@angular/material/icon";
 import {ToastrService} from "ngx-toastr";
+import {NgForOf} from "@angular/common";
 @Component({
   selector: 'app-transaction',
   standalone: true,
@@ -38,7 +39,8 @@ import {ToastrService} from "ngx-toastr";
     MatFormFieldModule,
     MatButtonToggleGroup,
     MatButtonToggle,
-    MatIcon
+    MatIcon,
+    NgForOf
   ],
   templateUrl: './transaction.component.html',
   styleUrl: './transaction.component.css'
@@ -113,4 +115,5 @@ export class TransactionComponent {
   }
   protected readonly parseFloat = parseFloat;
   protected readonly OperationAction = OperationAction;
+  protected readonly symbols = symbols;
 }
