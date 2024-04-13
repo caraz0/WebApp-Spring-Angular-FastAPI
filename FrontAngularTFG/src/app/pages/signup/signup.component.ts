@@ -39,13 +39,33 @@ export class SignupComponent {
 
   formSubmit(){
     if(this.user.username=='' || this.user.password=='' || this.user.email==''){
-      this.snack.open('Fields cannot be empty', 'Aceptar', {
+      this.snack.open('Fields cannot be empty', 'Ok', {
         duration: 3000,
         verticalPosition: 'top',
-        horizontalPosition: 'right'
+
       });
       return;
     }
+    const formatPassword = /^(?=.*[A-Z])(?=.*\d).{8,}$/;
+    if (!formatPassword.test(this.user.password)) {
+      this.snack.open('Password must be at least 8 characters long, including at least one uppercase letter and one number.', 'Ok', {
+        duration: 3000,
+        verticalPosition: 'top',
+
+      });
+      return;
+    }
+    const formatEmail = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+    if (!formatEmail.test(this.user.email)) {
+      this.snack.open('Please enter a valid email address.', 'Ok', {
+        duration: 3000,
+        verticalPosition: 'top',
+
+      });
+      return;
+    }
+
+
     this.userService.doRegistration(this.user).subscribe(
       data=>{
         console.log(data);
@@ -55,7 +75,7 @@ export class SignupComponent {
       },
       error=>{
         console.log(error);
-          this.snack.open('Something went wrong', 'Aceptar', {
+          this.snack.open('The user is already registered', 'Ok', {
           duration: 3000,
 
         });

@@ -10,7 +10,7 @@ import {BrowserAnimationsModule} from "@angular/platform-browser/animations";
 import {MatCard, MatCardContent, MatCardHeader} from "@angular/material/card";
 import {DataService} from "../../services/data.service";
 import {MatOption, MatSelect} from "@angular/material/select";
-import {symbols} from "../../components/transaction/OperationAction";
+import {symbolsWithIndex} from "./symbols";
 import {PortfolioChartComponent} from "../../components/portfolio-chart/portfolio-chart.component";
 import {CompareChartComponent} from "../../components/compare-chart/compare-chart.component";
 import { MatDialog } from '@angular/material/dialog';
@@ -82,5 +82,5 @@ export class CompareComponent {
 
   }
 
-  protected readonly symbols = symbols;
+  protected readonly symbols = symbolsWithIndex;
 }

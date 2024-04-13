@@ -1,4 +1,4 @@
-import {Component, OnInit} from '@angular/core';
+import {Component, OnInit, ViewChild} from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
 import { TransactionComponent } from '../../components/transaction/transaction.component';
 import { Data } from "./data";
@@ -34,7 +34,6 @@ import {
   MatExpansionPanelTitle
 } from "@angular/material/expansion";
 import {PortfolioChartComponent} from "../../components/portfolio-chart/portfolio-chart.component";
-
 @Component({
   selector: 'app-portfolio',
   standalone: true,
@@ -68,7 +67,8 @@ import {PortfolioChartComponent} from "../../components/portfolio-chart/portfoli
     MatExpansionPanelTitle,
     MatExpansionPanelDescription,
     MatExpansionPanelHeader,
-    NgClass
+    NgClass,
+
   ],
   templateUrl: './portfolio.component.html',
   styleUrl: './portfolio.component.css'

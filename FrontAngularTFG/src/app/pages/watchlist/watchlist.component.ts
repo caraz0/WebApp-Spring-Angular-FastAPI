@@ -10,6 +10,9 @@ import {DataService} from "../../services/data.service";
 import {ChartComponent} from "../../components/chart/chart.component";
 import {WatchlistService} from "../../services/watchlist.service";
 import {MatIcon} from "@angular/material/icon";
+import {symbolsWithIndex} from "../compare/symbols";
+import {MatSelect} from "@angular/material/select";
+import {ToastrService} from "ngx-toastr";
 
 @Component({
   selector: 'app-watchlist',
@@ -29,7 +32,8 @@ import {MatIcon} from "@angular/material/icon";
     ChartComponent,
     NgIf,
     MatIcon,
-    MatIconButton
+    MatIconButton,
+    MatSelect
   ],
   templateUrl: './watchlist.component.html',
   styleUrl: './watchlist.component.css'
@@ -38,20 +42,26 @@ export class WatchlistComponent implements OnInit{
   options: string[] = ['AAPL', 'AMZN', 'MSFT'];
   myControl = new FormControl('');
   filteredOptions: string[];
-  inputValue: string = '';
   inputValues: string[] = [];
-  constructor(private watchlistService: WatchlistService) {
+  constructor(private watchlistService: WatchlistService, private toast:ToastrService) {
     this.filteredOptions = this.options.slice();
   }
 
   showChart: boolean = false;
   getValue() {
-    if (this.myControl.value != null) {
-      this.watchlistService.addWatchlistEntry(this.myControl.value).subscribe(_ => {
+    const inputValue = this.myControl.value;
+
+    if (inputValue && !this.inputValues.includes(inputValue)) {
+      this.watchlistService.addWatchlistEntry(inputValue).subscribe(_ => {
+        this.inputValues.push(inputValue);
         this.loadWatchlist();
         this.showChart = true;
       });
-    }
+    }else{
+        this.toast.error('The symbol is already in the watchlist');
+
+      }
+
 
 
   }
@@ -82,4 +92,6 @@ export class WatchlistComponent implements OnInit{
       }
     });
   }
+
+  protected readonly symbols = symbolsWithIndex;
 }

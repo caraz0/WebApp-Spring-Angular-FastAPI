@@ -7,6 +7,7 @@ import io.github.caraz0.tfg.service.IUserService;
 import io.github.caraz0.tfg.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.ArrayList;
@@ -21,9 +22,13 @@ public class UserController {
     @Autowired
     private IUserService userService;
 
+    @Autowired
+    private BCryptPasswordEncoder bCryptPasswordEncoder;
+
     @PostMapping("/save")
     public User saveUser(@RequestBody User user) throws Exception{
 
+        user.setPassword(bCryptPasswordEncoder.encode(user.getPassword()));
         return userService.saveUser(user);
     }
 
