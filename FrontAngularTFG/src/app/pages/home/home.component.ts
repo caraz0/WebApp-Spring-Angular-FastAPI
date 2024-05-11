@@ -34,13 +34,6 @@ import {LoginService} from "../../services/login.service";
 })
 export class HomeComponent {
 
-  ticker : string = '^IBEX';
-  ticker2 : string = '^GSPC';
-  ticker3 : string = '^DJI';
-  ticker4 : string = '^STOXX50E';
-  ticker5 : string = '^IXIC';
-  ticker6 : string = '^N225';
-
   constructor(public login:LoginService) {
   }
 

@@ -42,7 +42,7 @@ export class SignupComponent {
       this.snack.open('Fields cannot be empty', 'Ok', {
         duration: 3000,
         verticalPosition: 'top',
-
+        panelClass: ['mat-warn']
       });
       return;
     }
@@ -51,7 +51,7 @@ export class SignupComponent {
       this.snack.open('Password must be at least 8 characters long, including at least one uppercase letter and one number.', 'Ok', {
         duration: 3000,
         verticalPosition: 'top',
-
+        panelClass: ['mat-warn']
       });
       return;
     }
@@ -60,7 +60,7 @@ export class SignupComponent {
       this.snack.open('Please enter a valid email address.', 'Ok', {
         duration: 3000,
         verticalPosition: 'top',
-
+        panelClass: ['mat-warn']
       });
       return;
     }

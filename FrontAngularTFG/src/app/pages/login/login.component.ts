@@ -60,8 +60,10 @@ export class LoginComponent implements OnInit{
       },
       (error:any)=>{
         console.log("Error: ", error);
-        this.snack.open("Invalid Details", "Close", {
-          duration: 3000
+        this.snack.open("User Not Found", "Close", {
+          duration: 3000,
+          horizontalPosition: 'center',
+
         });
       }
     );

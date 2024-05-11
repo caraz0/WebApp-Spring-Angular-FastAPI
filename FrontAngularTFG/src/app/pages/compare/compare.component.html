@@ -1,8 +1,7 @@
-<mat-card class="card" style="border-radius: 16px;background-color: #140F1C; border: 1px solid #434651;">
+<mat-card class="card" style="border-radius: 16px;background-color: #1A1526; border: 1px solid #434651">
   <mat-card-header >
-    <button mat-icon-button color="primary" (click)="addInput()">
-      <mat-icon>add</mat-icon>
-    </button>
+    <h2 class="heading-black" >Compare And Check Correlation of Any Symbol</h2>
+
   </mat-card-header>
   <mat-card-content class="card-content">
     <form [formGroup]="myForm" class="form">
@@ -14,14 +13,17 @@
                 <mat-option *ngFor="let symbol of symbols" [value]="symbol.value">{{ symbol.label }}</mat-option>
               </mat-select>
             </mat-form-field>
-            <button *ngIf="inputsArray.length > 2" mat-icon-button color="warn" class="delete-button" (click)="removeInput(i)">
-              <mat-icon>remove_circle_outline</mat-icon>
+            <button *ngIf="inputsArray.length > 2" mat-icon-button class="delete-button" (click)="removeInput(i)">
+              <mat-icon>delete</mat-icon>
             </button>
           </div>
         </div>
       </div>
       <div style="display: flex; justify-content: center">
-      <button mat-raised-button color="primary" (click)="processForm()">Compare</button>
+        <button style="margin-right: 10px" mat-raised-button color="primary" (click)="addInput()">
+          Add Symbol
+        </button>
+        <button style="left: 10px" mat-raised-button color="primary" (click)="processForm()">Compare</button>
       </div>
     </form>
   </mat-card-content>

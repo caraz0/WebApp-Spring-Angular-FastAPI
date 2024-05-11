@@ -46,25 +46,8 @@ public class SecurityConf {
         http.addFilterBefore(jwtAuthFilter, UsernamePasswordAuthenticationFilter.class);
         http.authenticationProvider(authenticationProvider());
 
-        // http....;
-
         return http.build();
-    /*@Override
-    protected void configure(HttpSecurity http) throws Exception {
-        () -> http
-                .csrf()
-                .disable()
-                .cors()
-                .disable()
-                .authorizeRequests()
-                .antMatchers("/authenticate", "/users/").permitAll()
-                .antMatchers(HttpMethod.OPTIONS).permitAll()
-                .anyRequest().authenticated()
-                .and()
-                .exceptionHandling().authenticationEntryPoint(unauthorizedHandler)
-                .and()
-                .sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS);
-        http.addFilterBefore(jwtAuthFilter, UsernamePasswordAuthenticationFilter.class);*/
+
     }
     @Bean
     public DaoAuthenticationProvider authenticationProvider() {

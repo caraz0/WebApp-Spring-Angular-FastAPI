@@ -9,23 +9,17 @@ export class LoginService {
 
   constructor(private http:HttpClient) { }
 
-  //Gen Token
   public generateToken(loginForm:any){
     return this.http.post(`${baseUrl}/authenticate`, loginForm );
   }
 
-  //Login and set token in local storage
   public loginUser(token:any) {
     localStorage.setItem('jwt', token);
   }
 
   public isLoggedIn(){
     let token = localStorage.getItem('jwt');
-    if(token == undefined || token === '' || token == null){
-      return false;
-    }else{
-      return true;
-    }
+    return !(token == undefined || token === '' || token == null);
   }
 
   public logOut(){

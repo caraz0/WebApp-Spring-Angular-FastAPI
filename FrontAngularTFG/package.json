@@ -20,6 +20,7 @@
     "@angular/platform-browser": "^17.2.0",
     "@angular/platform-browser-dynamic": "^17.2.0",
     "@angular/router": "^17.2.0",
+    "@formkit/auto-animate": "^0.8.2",
     "@swimlane/ngx-charts": "^20.5.0",
     "apexcharts": "^3.48.0",
     "bootstrap-grid-only-css": "^4.1.3",
