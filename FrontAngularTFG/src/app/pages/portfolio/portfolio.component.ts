@@ -76,7 +76,7 @@ import {PortfolioChartComponent} from "../../components/portfolio-chart/portfoli
 
 export class PortfolioComponent implements OnInit{
 
-  transactions: any[] = [];
+  transactions: any[]= [];
   displayedColumns: string[] = ['ticker', 'operation' ,'quantity', 'price', 'picker','ChangeValue','PercentChange', 'chart','delete'];
   dataSource = new MatTableDataSource<any>;
   comparedDataList: Data[][] = [];
@@ -109,6 +109,8 @@ export class PortfolioComponent implements OnInit{
             operationAction: entry.operationAction
           }));
           this.dataSource.data = this.transactions;
+          this.showChart = this.transactions.length > 0;
+
           for (const entry of  this.transactions) {
             await this.dataService.getComparedData(entry.symbol, entry.price, entry.amount, entry.date, entry.operationAction)
               .toPromise()
@@ -139,10 +141,10 @@ export class PortfolioComponent implements OnInit{
                 console.error('Error al obtener datos del servicio para', entry.symbol, ':', error);
               });
           }
+
           this.dataSum = this.sumValuesForMatchingDates(...this.comparedDataList);
           this.dataSum2 = this.sumValuesForMatchingDates(...this.comparedDataList2);
           this.dataSum3 = this.sumValuesForMatchingDates(...this.comparedDataList, ...this.comparedDataList2);
-          this.showChart = true;
 
           for (const entry of this.transactions.filter(entry => entry.operationAction === 'BUY')) {
             this.dataService.getPriceChange(entry.symbol, entry.price).subscribe(
@@ -155,7 +157,6 @@ export class PortfolioComponent implements OnInit{
               }
             );
           }
-
           this.createChart();
           this.createChart2();
           this.createChart3();
@@ -241,7 +242,7 @@ export class PortfolioComponent implements OnInit{
       width: 500,
       height: 250,
       layout: {
-        background: {color: '#140F1C'},
+        background: {color: '#1A1526'},
         textColor: 'white',
       },
       leftPriceScale: {
@@ -296,7 +297,7 @@ export class PortfolioComponent implements OnInit{
       width: 500,
       height: 250,
       layout: {
-        background: {color: '#140F1C'},
+        background: {color: '#1A1526'},
         textColor: 'white',
       },
       leftPriceScale: {
@@ -351,7 +352,7 @@ export class PortfolioComponent implements OnInit{
       width: 500,
       height: 250,
       layout: {
-        background: {color: '#140F1C'},
+        background: {color: '#1A1526'},
         textColor: 'white',
       },
       leftPriceScale: {

@@ -19,14 +19,18 @@
   </form>
 </div>
 <ng-container *ngIf="showChart">
-  <div class="bootstrap-wrapper" *ngFor="let inputValue of inputValues">
-    <div class="row " >
-      <div class="col ml10 mt10">
-        <app-chart [ticker]="inputValue" style="display: flex; justify-content: center;"></app-chart>
-        <div style="text-align: center; margin-top: 10px">
-          <button mat-icon-button  (click)="deleteEntry(inputValue)"><mat-icon>delete</mat-icon></button>
-        </div>
-      </div>
+  <div class="bootstrap-wrapper">
+
+  <div class="row" style="display: flex; justify-content: space-evenly">
+    <div *ngFor="let inputValue of inputValues">
+
+      <app-chart [ticker]="inputValue" style="display: flex; justify-content: center; margin-top: 15px"></app-chart>
+
+    <div style="text-align: center; margin-top: 10px">
+      <button mat-icon-button  (click)="deleteEntry(inputValue)"><mat-icon>delete</mat-icon></button>
+    </div>
     </div>
   </div>
+  </div>
+    \
 </ng-container>

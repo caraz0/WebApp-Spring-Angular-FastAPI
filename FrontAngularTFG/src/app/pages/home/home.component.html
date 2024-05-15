@@ -26,8 +26,8 @@
                 <mat-icon>show_chart</mat-icon>
               </div>
             </div>
-            <h5>Check Macroeconomy Data</h5>
-            <p class="text-muted">Stay updated on crucial macroeconomic indicators such as GDP, CPI, and more for various countries worldwide.</p>
+            <h5>Check financial data</h5>
+            <p class="text-muted">Stay updated on crucial macroeconomic indicators, such as GDP, CPI, and various indexes, forex, or commodities for countries around the world.</p>
           </div>
           <div class="col-md-6 box">
             <div class="icon-box box-success">
@@ -35,8 +35,8 @@
                 <mat-icon>candlestick_chart</mat-icon>
               </div>
             </div>
-            <h5>Check other financial data</h5>
-            <p class="text-muted">Explore a wide range of financial markets with access to indices, forex, commodities, and stocks data at your fingertips.</p>
+            <h5>Compare financial data <a *ngIf = "!login.isLoggedIn()" routerLink="/signup">(Registered users only)</a></h5>
+            <p class="text-muted">Analyse and compare stock index, forex, stocks, or commodity symbols in a single chart to understand their correlations and trends across different countries.</p>
           </div>
           <div class="col-md-6 box">
             <div class="icon-box box-danger">

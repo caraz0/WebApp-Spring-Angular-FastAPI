@@ -52,7 +52,7 @@ export class CharttemplateComponent implements OnInit{
       width: 700,
       height: 350,
       layout: {
-        background: {color: '#140F1C'},
+        background: {color: '#1A1526'},
         textColor: 'white',
       },
       leftPriceScale: {
@@ -71,10 +71,10 @@ export class CharttemplateComponent implements OnInit{
       },
       grid: {
         horzLines: {
-          color: '#eee',
+          visible: false,
         },
         vertLines: {
-          color: '#ffffff',
+          visible: false,
         },
       },
     });
