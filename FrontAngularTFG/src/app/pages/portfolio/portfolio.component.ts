@@ -34,6 +34,7 @@ import {
   MatExpansionPanelTitle
 } from "@angular/material/expansion";
 import {PortfolioChartComponent} from "../../components/portfolio-chart/portfolio-chart.component";
+
 @Component({
   selector: 'app-portfolio',
   standalone: true,
@@ -85,6 +86,8 @@ export class PortfolioComponent implements OnInit{
   dataSum2: Record<string, number> = {};
   dataSum3: Record<string, number> = {};
 
+  negativeColor: string = '#F2506E';
+  positiveColor: string = '#7CA12B';
   private chart: any;
   showChart: boolean = false;
 
@@ -150,7 +153,7 @@ export class PortfolioComponent implements OnInit{
             this.dataService.getPriceChange(entry.symbol, entry.price).subscribe(
               (data: any) => {
                 entry.dollarValue = data.difference.toFixed(2);
-                entry.percentChange = data.percentage_change.toFixed(2) + '%';
+                entry.percentChange = data.percentage_change.toFixed(2);
               },
               (error: any) => {
                 console.error('Error retrieving price change:', error);
@@ -235,6 +238,8 @@ export class PortfolioComponent implements OnInit{
   }
   createChart() {
     const container = document.getElementById("chart-container");
+    let color = '#7CA12B';
+
     if (!container) {
       return;
     }
@@ -267,13 +272,6 @@ export class PortfolioComponent implements OnInit{
           visible: false,
         },
       },
-    });
-
-    const series = this.chart.addAreaSeries({
-      topColor: '#7CA12B',
-      bottomColor: 'rgb(159, 197, 88, 0.01)',
-      lineColor: '#7CA12B',
-      lineWidth: 2
     });
 
     const dataArray = [];
@@ -284,12 +282,33 @@ export class PortfolioComponent implements OnInit{
     dataArray.sort((a, b) => {
       return new Date(a.time).getTime() - new Date(b.time).getTime();
     });
+
+    const closestValue = dataArray[dataArray.length - 1].value;
+    const isNegative = closestValue < 0;
+
+    let degradedColor = 'rgb(159, 197, 88, 0.01)';
+    if (isNegative) {
+      color = this.negativeColor;
+      degradedColor = 'rgb(242, 80, 110, 0.01)';
+    } else {
+      color = this.positiveColor;
+
+    }
+    const series = this.chart.addAreaSeries({
+      topColor: color,
+      bottomColor: degradedColor,
+      lineColor: color,
+      lineWidth: 2
+    });
+
+
     series.setData(dataArray);
 
   }
 
   createChart2() {
     const container = document.getElementById("chart-container2");
+    let color = '#7CA12B';
     if (!container) {
       return;
     }
@@ -323,14 +342,6 @@ export class PortfolioComponent implements OnInit{
         },
       },
     });
-
-    const series = this.chart.addAreaSeries({
-      topColor: '#7CA12B',
-      bottomColor: 'rgb(159, 197, 88, 0.01)',
-      lineColor: '#7CA12B',
-      lineWidth: 2
-    });
-
     const dataArray = [];
 
     for (const [time, value] of Object.entries(this.dataSum2)) {
@@ -339,6 +350,25 @@ export class PortfolioComponent implements OnInit{
     dataArray.sort((a, b) => {
       return new Date(a.time).getTime() - new Date(b.time).getTime();
     });
+
+    const closestValue = dataArray[dataArray.length - 1].value;
+    const isNegative = closestValue < 0;
+
+    let degradedColor = 'rgb(159, 197, 88, 0.01)';
+    if (isNegative) {
+      color = this.negativeColor;
+      degradedColor = 'rgb(242, 80, 110, 0.01)';
+    } else {
+      color = this.positiveColor;
+    }
+    const series = this.chart.addAreaSeries({
+      topColor: color,
+      bottomColor: degradedColor,
+      lineColor: color,
+      lineWidth: 2
+    });
+
+
     series.setData(dataArray);
 
   }
@@ -378,14 +408,6 @@ export class PortfolioComponent implements OnInit{
         },
       },
     });
-
-    const series = this.chart.addAreaSeries({
-      topColor: '#F2506E',
-      bottomColor: 'rgb(242, 80, 110, 0.01)',
-      lineColor: '#F2506E',
-      lineWidth: 2
-    });
-
     const dataArray = [];
 
     for (const [time, value] of Object.entries(this.dataSum3)) {
@@ -394,8 +416,29 @@ export class PortfolioComponent implements OnInit{
     dataArray.sort((a, b) => {
       return new Date(a.time).getTime() - new Date(b.time).getTime();
     });
+    const closestValue = dataArray[dataArray.length - 1].value;
+    const isNegative = closestValue < 0;
+
+    let color = '#7CA12B';
+    let degradedColor = 'rgb(159, 197, 88, 0.01)';
+    if (isNegative) {
+      color = this.negativeColor;
+      degradedColor = 'rgb(242, 80, 110, 0.01)';
+    } else {
+      color = this.positiveColor;
+    }
+    const series = this.chart.addAreaSeries({
+      topColor: color,
+      bottomColor: degradedColor,
+      lineColor: color,
+      lineWidth: 2
+    });
+
+
     series.setData(dataArray);
 
   }
+
+
 
 }

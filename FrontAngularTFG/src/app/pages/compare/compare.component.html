@@ -9,9 +9,12 @@
         <div class="input-row">
           <div *ngFor="let input of inputsArray.controls; let i = index" [formGroupName]="i" class="input-field">
             <mat-form-field>
-              <mat-select placeholder="Select Symbol" [formControlName]="'valor'">
-                <mat-option *ngFor="let symbol of symbols" [value]="symbol.value">{{ symbol.label }}</mat-option>
-              </mat-select>
+              <input type="text" placeholder="Select symbol" matInput [formControlName]="'valor'" [matAutocomplete]="auto">
+              <mat-autocomplete #auto="matAutocomplete">
+                <mat-option *ngFor="let symbol of symbols" [value]="symbol.value">
+                  {{ symbol.label }}
+                </mat-option>
+              </mat-autocomplete>
             </mat-form-field>
             <button *ngIf="inputsArray.length > 2" mat-icon-button class="delete-button" (click)="removeInput(i)">
               <mat-icon>delete</mat-icon>
@@ -20,10 +23,10 @@
         </div>
       </div>
       <div style="display: flex; justify-content: center">
-        <button style="margin-right: 10px" mat-raised-button color="primary" (click)="addInput()">
+        <button *ngIf="inputsArray.length < 5" style="margin-right: 10px" mat-raised-button color="primary" (click)="addInput()">
           Add Symbol
         </button>
-        <button style="left: 10px" mat-raised-button color="primary" (click)="processForm()">Compare</button>
+        <button style="margin-left: 10px" mat-raised-button color="primary" (click)="processForm()">Compare</button>
       </div>
     </form>
   </mat-card-content>

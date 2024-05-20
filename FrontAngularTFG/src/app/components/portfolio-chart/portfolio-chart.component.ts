@@ -115,9 +115,9 @@ export class PortfolioChartComponent implements OnInit{
       },
     });
     const series = this.chart.addAreaSeries({
-      topColor: '#7CA12B',
-      bottomColor: 'rgb(159, 197, 88, 0.01)',
-      lineColor: '#7CA12B',
+      topColor: '#3B8FD9',
+      bottomColor: 'rgb(59, 143, 217, 0.01)',
+      lineColor: '#3B8FD9',
       lineWidth: 2
     });
     //this.candlestickSeries = this.chart.addAreaSeries();

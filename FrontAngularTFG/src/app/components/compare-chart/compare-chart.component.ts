@@ -12,8 +12,17 @@ import {MAT_DIALOG_DATA, MatDialogActions, MatDialogClose, MatDialogRef} from "@
 import {DataService} from "../../services/data.service";
 import { createChart,CrosshairMode, ISeriesApi } from 'lightweight-charts';
 import {symbols} from "../transaction/OperationAction";
-import {NgForOf, NgIf} from "@angular/common";
+import {NgClass, NgForOf, NgIf, NgStyle} from "@angular/common";
 import {MatList, MatListItem} from "@angular/material/list";
+import {
+  MatCell,
+  MatCellDef,
+  MatColumnDef,
+  MatHeaderCell,
+  MatHeaderCellDef,
+  MatHeaderRow, MatHeaderRowDef, MatRow, MatRowDef,
+  MatTable
+} from "@angular/material/table";
 
 @Component({
   selector: 'app-compare-chart',
@@ -31,7 +40,19 @@ import {MatList, MatListItem} from "@angular/material/list";
     NgForOf,
     NgIf,
     MatList,
-    MatListItem
+    MatListItem,
+    MatTable,
+    MatColumnDef,
+    MatHeaderCell,
+    MatCell,
+    MatHeaderCellDef,
+    MatCellDef,
+    MatHeaderRow,
+    MatHeaderRowDef,
+    MatRowDef,
+    MatRow,
+    NgClass,
+    NgStyle
   ],
   templateUrl: './compare-chart.component.html',
   styleUrl: './compare-chart.component.css'
@@ -47,9 +68,11 @@ export class CompareChartComponent implements OnInit{
   stockData: any []= [];
   tickers: any[]= this.data.symbols;
   tickersStr: string[] = [];
-  colors = ['#598dd4', 'rgb(154,42,248)', 'rgb(243,0,255)', '#96d312', '#F2F2F2'];
+  colors = ['#abece4', '#c4d004', '#926d40', '#fb7991', '#ff9f15'];
   correlation: any[]= [];
   correlationData: { key: string, value: unknown }[] = [];
+
+  displayedColumns: string[] = ['key', 'value'];
 
   constructor(private stockService: DataService, @Inject(MAT_DIALOG_DATA) public data: any, public dialogRef: MatDialogRef<CompareChartComponent>) {
     this.tickers = data.symbols;
@@ -73,10 +96,48 @@ export class CompareChartComponent implements OnInit{
       }
       console.log(this.correlation);
       console.log('Correlación:', data);
+      this.processCorrelationData(data);
     });
 
-
   }
+  dataSource: any[] = [];
+
+  processCorrelationData(data: any) {
+    const tickers = this.tickersStr;
+
+    this.displayedColumns = ['ticker', ...tickers];
+
+    this.dataSource = tickers.map(ticker => {
+      const row: any = { ticker };
+      tickers.forEach(t => {
+        const correlationKey1 = `${ticker}-${t}`;
+        const correlationKey2 = `${t}-${ticker}`;
+        if (ticker === t) {
+          row[t] = '1.000';
+        } else if (data[correlationKey1] !== undefined) {
+          row[t] = data[correlationKey1].toFixed(3);
+        } else if (data[correlationKey2] !== undefined) {
+          row[t] = data[correlationKey2].toFixed(3);
+        } else {
+          row[t] = '';
+        }
+      });
+      return row;
+    });
+
+    console.log('dataSource:', this.dataSource);
+  }
+
+  getBackgroundColor(value: number | string): string {
+
+    const val = typeof value === 'string' ? parseFloat(value) : value;
+    const redColor = [242, 80, 110];
+    const greenColor = [124, 161, 43];
+    const color = val < 0 ? redColor : greenColor;
+    const intensity = Math.abs(val) * 0.5; // Adjust the intensity as needed
+    return `rgba(${color[0]},${color[1]},${color[2]},${intensity})`;
+  }
+
   getStockName() {
     for (let i = 0; i < this.tickers.length; i++) {
       this.stockService.getStockName(this.tickers[i]).subscribe((data: any) => {

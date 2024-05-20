@@ -59,7 +59,7 @@
 
     <ng-container matColumnDef="price">
       <th mat-header-cell *matHeaderCellDef>Buy Price</th>
-      <td mat-cell *matCellDef="let transaction">{{ transaction.price }}</td>
+      <td mat-cell *matCellDef="let transaction">{{ transaction.price }} $</td>
     </ng-container>
 
     <ng-container matColumnDef="picker">
@@ -70,13 +70,13 @@
     <ng-container matColumnDef="ChangeValue">
       <th mat-header-cell *matHeaderCellDef>Change Value</th>
       <td mat-cell *matCellDef="let transaction" [ngClass]="{'positive-change': transaction.dollarValue >= 0, 'negative-change': transaction.dollarValue < 0}">
-        {{ transaction.dollarValue }}</td>
+        {{ transaction.dollarValue }}  <span *ngIf="transaction.operationAction !== 'SELL'">$</span></td>
     </ng-container>
 
     <ng-container matColumnDef="PercentChange">
       <th mat-header-cell *matHeaderCellDef>Percent Change</th>
       <td mat-cell *matCellDef="let transaction" [ngClass]="{'positive-change': transaction.percentChange >= 0, 'negative-change': transaction.percentChange < 0}">
-        {{ transaction.percentChange  }}</td>
+        {{ transaction.percentChange  }}  <span *ngIf="transaction.operationAction !== 'SELL'">%</span></td>
     </ng-container>
 
     <ng-container matColumnDef="chart">

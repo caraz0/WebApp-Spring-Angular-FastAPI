@@ -11,9 +11,15 @@ table{
   background: #1A1526;
 }
 .positive-change {
-  color: green;
+  color: #7CA12B;
 }
 
 .negative-change {
-  color: red;
+  color: #F2506E;
+}
+th{
+  text-align: center;
+}
+td{
+  text-align: center;
 }

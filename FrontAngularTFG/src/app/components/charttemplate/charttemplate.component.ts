@@ -32,7 +32,35 @@ export class CharttemplateComponent implements OnInit{
   async ngOnInit() {
     await this.loadStockData();
     this.createChart();
-
+    if (this.ticker === 'IPCESP') {
+      this.tickerName = 'CPI SPAIN';
+    } else if (this.ticker === 'GDPESP') {
+      this.tickerName = 'GDP SPAIN';
+    } else if (this.ticker === 'GDPGER') {
+      this.tickerName = 'GDP GERMANY';
+    } else if (this.ticker === 'CPIGER') {
+      this.tickerName = 'CPI GERMANY';
+    } else if (this.ticker === 'GDP') {
+      this.tickerName = 'GDP USA';
+    } else if (this.ticker === 'CPIAUCNS') {
+      this.tickerName = 'CPI USA';
+    } else if (this.ticker === 'UNRATE') {
+      this.tickerName = 'UNEMPLOYMENT RATE USA';
+    } else if (this.ticker === 'FEDFUNDS') {
+      this.tickerName = 'FED FUNDS RATE USA';
+    } else if (this.ticker === 'FPCPITOTLZGUSA') {
+      this.tickerName = 'INFLATION USA';
+    } else if (this.ticker === 'HSN1F') {
+      this.tickerName = 'HOUSING STARTS USA';
+    } else if (this.ticker === 'INDPRO') {
+      this.tickerName = 'INDUSTRIAL PRODUCTION USA';
+    } else if (this.ticker === 'PAYEMS') {
+      this.tickerName = 'PAYROLL EMPLOYMENT USA';
+    } else if (this.ticker === 'PCE') {
+      this.tickerName = 'PERSONAL CONSUMPTION EXPENDITURES USA';
+    } else if (this.ticker === 'PCEPI') {
+      this.tickerName = 'PCE PRICE INDEX USA';
+    }
   }
   async loadStockData() {
     this.stockData = await this.stockService.getMacroData(this.ticker).toPromise()
@@ -60,6 +88,7 @@ export class CharttemplateComponent implements OnInit{
           top: 0.3,
           bottom: 0.25,
         },
+        mode: 1,
         visible: true,
         borderVisible: false,
       },
@@ -79,10 +108,10 @@ export class CharttemplateComponent implements OnInit{
       },
     });
     const series = this.chart.addAreaSeries({
-      topColor: '#7CA12B',
-      bottomColor: 'rgb(159, 197, 88, 0.01)',
-      lineColor: '#7CA12B',
-      lineWidth: 2
+      topColor: '#3B8FD9',
+      bottomColor: 'rgb(59, 143, 217, 0.01)',
+      lineColor: '#3B8FD9',
+      lineWidth: 1
     });
     //this.candlestickSeries = this.chart.addAreaSeries();
     series.setData(this.stockData);

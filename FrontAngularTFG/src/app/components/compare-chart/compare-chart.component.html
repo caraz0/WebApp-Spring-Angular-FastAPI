@@ -13,13 +13,21 @@
     <mat-card-content>
       <div id="chart-container"  style="margin-top: 20px; margin-bottom: 20px"></div>
 
+
     </mat-card-content>
     <div class="row">
-    <mat-list class="horizontal-list">
-      <mat-list-item *ngFor="let item of correlationData">
-        <p>{{ item.key }}: {{ item.value }}</p>
-      </mat-list-item>
-    </mat-list>
+      <table mat-table [dataSource]="dataSource" class="mat-elevation-z8">
+
+        <ng-container *ngFor="let column of displayedColumns" [matColumnDef]="column">
+          <th mat-header-cell *matHeaderCellDef> {{ column === 'ticker' ? 'Symbol' : column }} </th>
+          <td mat-cell *matCellDef="let element" [ngStyle]="{'background-color': getBackgroundColor(element[column])}" class="heatmap-cell">
+            {{ element[column] }}
+          </td>
+        </ng-container>
+
+        <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+        <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
+      </table>
     </div>
     <mat-card-actions>
       <mat-dialog-actions>

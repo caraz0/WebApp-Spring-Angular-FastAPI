@@ -38,3 +38,35 @@ mat-card-actions{
 .horizontal-list mat-list-item {
   margin-right: 10px;
 }
+
+table{
+  border-collapse: separate;
+  border-spacing: 0;
+  border-radius: 15px;
+  overflow: hidden;
+  border: 1px solid #434651;
+  min-width: 90%;
+  margin: auto;
+  align-content: center ;
+  margin-top: 30px;
+  background: #1A1526;
+}
+.positive-change {
+  color: #7CA12B;
+}
+
+.negative-change {
+  color: #F2506E;
+}
+th{
+  text-align: center;
+}
+td{
+  text-align: center;
+}
+
+.heatmap-cell {
+  text-align: center;
+  color: white;
+  font-weight: bold;
+}

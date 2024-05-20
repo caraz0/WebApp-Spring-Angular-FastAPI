@@ -5,8 +5,6 @@ import {MatFormField} from "@angular/material/form-field";
 import {MatIcon} from "@angular/material/icon";
 import {MatButton, MatButtonModule, MatIconButton} from "@angular/material/button";
 import {MatInput, MatInputModule} from "@angular/material/input";
-import {BrowserModule} from "@angular/platform-browser";
-import {BrowserAnimationsModule} from "@angular/platform-browser/animations";
 import {MatCard, MatCardContent, MatCardHeader} from "@angular/material/card";
 import {DataService} from "../../services/data.service";
 import {MatOption, MatSelect} from "@angular/material/select";
@@ -14,6 +12,7 @@ import {symbolsWithIndex} from "./symbols";
 import {PortfolioChartComponent} from "../../components/portfolio-chart/portfolio-chart.component";
 import {CompareChartComponent} from "../../components/compare-chart/compare-chart.component";
 import { MatDialog } from '@angular/material/dialog';
+import {MatAutocomplete, MatAutocompleteModule} from "@angular/material/autocomplete";
 
 @Component({
   selector: 'app-compare',
@@ -34,6 +33,7 @@ import { MatDialog } from '@angular/material/dialog';
     MatCardHeader,
     MatSelect,
     MatOption,
+    MatAutocompleteModule,
 
   ],
   templateUrl: './compare.component.html',
