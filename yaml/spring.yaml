@@ -1,0 +1,42 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: spring-deployment
+  namespace: back-spring
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: back-spring
+  template:
+    metadata:
+      labels:
+        app: back-spring
+    spec:
+      containers:
+        - name: spring-container
+          image: caraz0/back-spring:v1
+          imagePullPolicy: Always
+          ports:
+            - containerPort: 8080
+              name: back-spring-port
+              protocol: TCP
+          env:
+            - name: spring.datasource.url
+              value: jdbc:postgresql://deployment-postgres.bbdd.svc.cluster.local:5432/postgres
+
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: spring-service
+  namespace: back-spring
+spec:
+  type: NodePort
+  selector:
+    app: back-spring
+  ports:
+    - port: 8080
+      targetPort: 8080
+      protocol: TCP
+      nodePort: 30078

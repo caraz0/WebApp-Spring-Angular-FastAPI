@@ -1,0 +1,39 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: back-data-deployment
+  namespace: back-data
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: back-data
+  template:
+    metadata:
+      labels:
+        app: back-data
+    spec:
+      containers:
+        - name: data-container
+          image: caraz0/back-data:v1
+          imagePullPolicy: Always
+          ports:
+            - containerPort: 8000
+              name: back-data-port
+              protocol: TCP
+
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: back-data-service
+  namespace: back-data
+spec:
+  type: NodePort
+  selector:
+    app: back-data
+  ports:
+    - port: 8000
+      targetPort: 8000
+      protocol: TCP
+      nodePort: 30100
