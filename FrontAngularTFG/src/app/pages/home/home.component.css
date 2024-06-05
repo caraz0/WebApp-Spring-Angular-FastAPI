@@ -67,3 +67,104 @@ footer {
   float: none;
   margin: 0 auto;
 }
+.heading-black {
+  font-weight: 800; }
+
+.feature-boxes {
+  text-align: center; }
+
+.text-muted {
+  color: #78909C !important; }
+
+.feature-boxes .box {
+  padding: 3rem; }
+h1, h2, h3, h4, h5, h6,
+.h1, .h2, .h3, .h4, .h5, .h6 {
+  margin-bottom: 1rem;
+  font-family: inherit;
+  font-weight: 700;
+  line-height: 1.5;
+  color: #ffffff; }
+h1, .h1 {
+  font-size: 3rem; }
+
+h2, .h2 {
+  font-size: 2.5rem; }
+h5, .h5 {
+  font-size: 1.25rem; }
+.features-list {
+  list-style: none; }
+.features-list li {
+  float: left;
+  width: 50%;
+  margin-top: 0;
+  margin-bottom: 1.75rem;
+  font-size: 1.05rem;
+  padding-left: 1.75rem;
+  font-weight: 500; }
+.features-list li:before {
+  position: relative;
+  font-family: FontAwesome;
+  font-size: 14px;
+  content: "\f10c";
+  color: #1de9b6;
+  margin: 0 .75rem 0 0; }
+.icon-box {
+  position: relative;
+  border-radius: 50%;
+  display: inline-block;
+  vertical-align: middle;
+  background-color: #ffffff;
+  margin: 1rem; }
+.icon-box.box-primary {
+  color: #1de9b6;
+  background-color: rgba(29, 233, 182, 0.1); }
+.icon-box.box-secondary {
+  color: #ffffff;
+  background-color: rgba(255, 255, 255, 0.1); }
+.icon-box.box-success {
+  color: #00e676;
+  background-color: rgba(0, 230, 118, 0.1); }
+.icon-box.box-info {
+  color: #00e5ff;
+  background-color: rgba(0, 229, 255, 0.1); }
+.icon-box.box-warning {
+  color: #ffea00;
+  background-color: rgba(255, 234, 0, 0.1); }
+.icon-box.box-danger {
+  color: #ff1744;
+  background-color: rgba(255, 23, 68, 0.1); }
+.icon-box.box-light {
+  color: #ECEFF1;
+  background-color: rgba(236, 239, 241, 0.1); }
+.icon-box.box-dark {
+  color: #11171a;
+  background-color: rgba(17, 23, 26, 0.1); }
+.icon-box .icon-box-inner {
+  display: -ms-flexbox;
+  display: flex;
+  -ms-flex-direction: row;
+  flex-direction: row;
+  -ms-flex-align: center;
+  align-items: center;
+  padding: 1.5rem; }
+.icon-box .icon-box-inner.small {
+  padding: 1.25rem; }
+.icon-box .icon-box-inner.small-xs {
+  padding: 1rem; }
+.list-inline {
+  padding-left: 0;
+  list-style: none; }
+
+.list-inline-item {
+  display: inline-block; }
+.list-inline-item:not(:last-child) {
+  margin-right: 0.5rem; }
+.list-unstyled {
+  padding-left: 0;
+  list-style: none; }
+.social.social-sm a {
+  width: 35px;
+  height: 35px;
+  font-size: 16px;
+  line-height: 35px; }
