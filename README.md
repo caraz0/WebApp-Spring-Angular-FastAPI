@@ -1,5 +1,26 @@
-Web application distributed in Services using Angular, Spring Boot, Python with FastAPI and deployed in Rancher using Kubernetes.
 
+### Web application distributed in Services using Angular, Spring Boot, Python with FastAPI and deployed in Rancher using Kubernetes.
+
+### The application has the following functionalities:
+
++ Visualisation of macroeconomic and financial data.
++ Portfolio tracking for investors (Only for registered users).
++ Stock comparison with a heat map with correlations between stocks (Only for registered users).
++ Custom Tracking List, to store the stocks that the user wants (Only for registered users).
+
+### Web App Images:
+
+![Main Page]()
+
+![Main Page]()
+
+![Main Page]()
+
+![Main Page]()
+
+![Main Page]()
+
+![Main Page]()
 Copyright (C) 2024  caraz0
 
 This program is free software: you can redistribute it and/or modify
